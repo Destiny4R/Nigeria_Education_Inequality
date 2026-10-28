@@ -1,0 +1,43 @@
+{% extends "portal/base.html" %}
+{% block title %}Methodology{% endblock %}
+{% block content %}
+<h1>Methodology</h1>
+<p class="lead-muted">Four kinds of question are kept separate: describing inequality, predicting outcomes, estimating causal effects, and simulating counterfactual policies.</p>
+
+<h2>Research questions</h2>
+<ol>
+<li>How does educational inequality vary across Nigerian states and population groups? <span class="text-muted small">&rarr; <a href="{% url 'dashboard' %}">Dashboard</a>, <a href="{% url 'inequality' %}">Inequality analysis</a></span></li>
+<li>Which socioeconomic and school-related factors are associated with these differences? <span class="text-muted small">&rarr; poverty gradient on the <a href="{% url 'inequality' %}">Inequality</a> page; feature-level explanation on the <a href="{% url 'causal' %}">Causal</a> page</span></li>
+<li>What is the estimated causal effect of a selected intervention (fewer pupils per qualified teacher) on the primary outcome? <span class="text-muted small">&rarr; <a href="{% url 'causal' %}">Causal analysis</a></span></li>
+<li>Would the intervention reduce inequality, rather than merely improve the national average? <span class="text-muted small">&rarr; <a href="{% url 'simulate' %}">Policy simulator</a> (reports the change in the average and in the North&ndash;South and poverty gaps separately)</span></li>
+<li>How sensitive are the estimates to missing data, alternative model assumptions and uncertainty? <span class="text-muted small">&rarr; robustness, specification table and omitted-variable sensitivity on the <a href="{% url 'causal' %}">Causal</a> page; data-quality flags on the <a href="{% url 'data_home' %}">Data</a> page</span></li>
+</ol>
+
+<h2>1. Data and unit of analysis</h2>
+<p>The analysis unit is the <strong>state</strong> (36 states plus the FCT). The primary outcome is the primary out-of-school rate from MICS6 2021; the treatment is the public pupil-to-qualified-teacher ratio (PQTR) from the 2016/17 school census. All data are published aggregates, not household or school records, and every dataset passes a documented readiness gate. See <a href="{% url 'data_home' %}">Data</a> and the <a href="{% url 'dictionary' %}">data dictionary</a>.</p>
+<div class="caveat"><strong>Data limitations</strong>School-census tables contain duplicated rows, implausible ratios and projected denominators. Rows that fail critical rules are set to missing, never repaired by guessing. Poverty (2018) is measured after the treatment year, so it is used as a proxy for long-standing conditions.</div>
+
+<h2>2. Inequality measures</h2>
+<ul>
+  <li>Absolute and relative gaps between groups (for example North versus South, high versus low poverty).</li>
+  <li>Population-weighted Gini and Theil indices of state rates; Gini is only applied to a numerical rate across units, not to categories.</li>
+  <li>Wagstaff and Erreygers concentration indices and slope/relative indices of inequality for wealth gradients.</li>
+  <li>Intervals from resampling <em>states</em>; they are not survey sampling-error intervals.</li>
+</ul>
+
+<h2>3. Causal analysis</h2>
+<p>Every analysis states a treatment, outcome, confounders and estimand, draws the assumed graph, checks identification with DoWhy and compares several estimators (regression adjustment, generalised propensity weighting, double machine learning). Refutation tests and an omitted-variable-bias robustness value probe the estimate, but passing them does not prove the assumptions true.</p>
+<div class="caveat"><strong>Adjusted association, not proof</strong>With a cross-section of about 31 states and no credible quasi-experiment, estimates are adjusted associations that can be read causally only under the stated assumptions (see the <a href="{% url 'causal' %}">causal page</a>). Feature importance and SHAP describe a predictive model and are not causal evidence.</div>
+
+<h2>4. Policy simulation</h2>
+<p>A scenario changes PQTR in chosen states; the counterfactual out-of-school rate applies the estimated effect, propagating its statistical uncertainty and, separately, a user-set implementation-fidelity range. No cost data exist, so scenarios are never ranked by cost-effectiveness.</p>
+{% if scenarios %}<h3>Preset scenarios</h3><ul>{% for s in scenarios %}<li><strong>{{ s.name }}</strong>: {{ s.description }}</li>{% endfor %}</ul>{% endif %}
+
+<h2>5. Indicator definitions</h2>
+<div class="table-wrap"><table class="table table-sm table-striped"><caption class="visually-hidden">Indicators</caption>
+<thead><tr><th scope="col">Indicator</th><th scope="col">Unit</th><th scope="col">Denominator</th><th scope="col">Weighting</th><th scope="col">Missing-data rule</th><th scope="col">Source</th></tr></thead>
+<tbody>{% for i in indicators %}<tr><th scope="row">{{ i.label }}<div class="small text-muted fw-normal">{{ i.interpretation }}</div></th><td>{{ i.unit }}</td><td>{{ i.denominator }}</td><td>{{ i.weighting }}</td><td>{{ i.missing_rule }}</td><td>{{ i.source_id }}{% if not i.comparable %} <span class="badge-status s-rejected">not comparable</span>{% endif %}</td></tr>{% empty %}<tr><td colspan="6">No indicator definitions have been loaded.</td></tr>{% endfor %}</tbody></table></div>
+
+<h2>6. Reproducibility and privacy</h2>
+<p>Every run stores its configuration hash, the SHA-256 of the data it used, software versions and the hash of its results; exports quote them. The site holds only public aggregate data, has no accounts, hashes client addresses in the <a href="{% url 'activity' %}">activity log</a>, and suppresses nothing it does not need to because no individual-level records are held.</p>
+{% endblock %}

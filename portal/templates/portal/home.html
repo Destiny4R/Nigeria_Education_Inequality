@@ -1,0 +1,44 @@
+{% extends "portal/base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<h1>Educational inequality in Nigeria: evidence, causal analysis and policy what-ifs</h1>
+<p class="lead-muted">An open research portal that gathers published education and poverty data, measures where children are missing out, and asks, carefully, what could change that.</p>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3"><div class="panel h-100"><div class="stat">{{ n_states }}</div><div class="stat-label">states and FCT in the data</div></div></div>
+  <div class="col-6 col-md-3"><div class="panel h-100"><div class="stat">{{ n_sample }}</div><div class="stat-label">states in the causal analysis sample</div></div></div>
+  <div class="col-6 col-md-3"><div class="panel h-100"><div class="stat">{{ n_sources }}</div><div class="stat-label">registered data sources</div></div></div>
+  <div class="col-6 col-md-3"><div class="panel h-100"><div class="stat">{{ n_datasets }}</div><div class="stat-label">registered datasets</div></div></div>
+</div>
+
+{% if profile %}
+<h2>What the data show</h2>
+<div class="row g-3">
+  <div class="col-md-4"><div class="panel h-100"><div class="stat">{{ profile.weighted_mean|floatformat:1 }}%</div><div class="stat-label">primary-age children out of school, population-weighted state average (MICS6 2021)</div></div></div>
+  <div class="col-md-4"><div class="panel h-100"><div class="stat">{{ profile.min.value|floatformat:0 }}% to {{ profile.max.value|floatformat:0 }}%</div><div class="stat-label">range across states: {{ profile.min.state }} (lowest) to {{ profile.max.state }} (highest)</div></div></div>
+  <div class="col-md-4"><div class="panel h-100"><div class="stat">{{ profile.gini|floatformat:2 }}</div><div class="stat-label">Gini coefficient of out-of-school rates across states (0 equal, 1 unequal)</div></div></div>
+</div>
+<ul>
+  {% if regional %}<li>Northern states average <strong>{{ regional.means.North|floatformat:1 }}%</strong> out of school versus <strong>{{ regional.means.South|floatformat:1 }}%</strong> in the South: a gap of {{ regional.gap|floatformat:1 }} points (state-resampling interval {{ regional.ci_low|floatformat:1 }} to {{ regional.ci_high|floatformat:1 }}).</li>{% endif %}
+  {% if wealth %}<li>Nationally, {{ wealth.rates.Poorest|floatformat:0 }}% of primary-age children in the poorest quintile are out of school against {{ wealth.rates.Richest|floatformat:0 }}% in the richest.</li>{% endif %}
+  {% if area %}<li>Rural children: {{ area.rates.Rural|floatformat:0 }}% out of school; urban children: {{ area.rates.Urban|floatformat:0 }}%.</li>{% endif %}
+</ul>
+{% endif %}
+
+{% if causal_expl %}
+<h2>What the causal analysis can and cannot say</h2>
+<div class="caveat"><strong>Honest verdict</strong>{{ causal_expl.verdict }}</div>
+{% if primary %}<p>Primary estimate: a 10% cut in pupils per qualified teacher is associated with a change of <strong>{{ primary.effect_10pct_reduction|floatformat:2 }} percentage points</strong> in the state out-of-school rate (95% interval {{ primary.effect_10pct_ci_low|floatformat:2 }} to {{ primary.effect_10pct_ci_high|floatformat:2 }}, n = {{ primary.n }} states).</p>{% endif %}
+<p><a href="{% url 'causal' %}">See the full causal analysis</a></p>
+{% endif %}
+
+<h2>Explore</h2>
+<div class="row g-3">
+  <div class="col-md-4"><div class="panel h-100"><h3 class="mt-0"><a href="{% url 'dashboard' %}">Dashboard</a></h3><p class="mb-0">National indicators, state map, rankings and trends.</p></div></div>
+  <div class="col-md-4"><div class="panel h-100"><h3 class="mt-0"><a href="{% url 'inequality' %}">Inequality analysis</a></h3><p class="mb-0">Filter by region, zone, poverty group and state; download results.</p></div></div>
+  <div class="col-md-4"><div class="panel h-100"><h3 class="mt-0"><a href="{% url 'data_home' %}">Data &amp; quality</a></h3><p class="mb-0">Sources, licences, readiness status and cleaning rules.</p></div></div>
+  <div class="col-md-4"><div class="panel h-100"><h3 class="mt-0"><a href="{% url 'simulate' %}">Policy simulator</a></h3><p class="mb-0">Compare hypothetical interventions with uncertainty.</p></div></div>
+  <div class="col-md-4"><div class="panel h-100"><h3 class="mt-0"><a href="{% url 'reports' %}">Reports</a></h3><p class="mb-0">Research report, requirements cross-check, analysis history.</p></div></div>
+  <div class="col-md-4"><div class="panel h-100"><h3 class="mt-0"><a href="{% url 'methodology' %}">Methodology</a></h3><p class="mb-0">Definitions, assumptions and limitations.</p></div></div>
+</div>
+{% endblock %}

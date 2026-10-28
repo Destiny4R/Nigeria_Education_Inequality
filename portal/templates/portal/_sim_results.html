@@ -1,0 +1,48 @@
+{% with h=r.headline iq=r.inequality %}
+<div class="caveat"><strong>Hypothetical what-if, not a forecast</strong>{{ r.interpretation }}</div>
+{% for w in r.warnings %}<div class="caveat"><strong>Warning</strong>{{ w }}</div>{% endfor %}
+
+<h2>Scenario</h2>
+<dl class="row">
+  <dt class="col-sm-3">Name</dt><dd class="col-sm-9">{{ r.scenario.name }}</dd>
+  <dt class="col-sm-3">Description</dt><dd class="col-sm-9">{{ r.scenario.description|default:"-" }}</dd>
+  <dt class="col-sm-3">Intervention</dt><dd class="col-sm-9">{{ r.scenario.intervention }} = {{ r.scenario.value }}; coverage: {{ r.scenario.coverage }}{% if r.scenario.coverage_value %} ({{ r.scenario.coverage_value }}){% endif %}</dd>
+  <dt class="col-sm-3">Effect model</dt><dd class="col-sm-9">{{ r.model.description }}: {{ r.model.beta_per_log_unit|floatformat:2 }} pp per log-unit of PQTR (SE {{ r.model.beta_se|floatformat:2 }}, df {{ r.model.dof }}). Horizon: {{ r.model.horizon }}.</dd>
+  <dt class="col-sm-3">Implementation fidelity</dt><dd class="col-sm-9">{{ r.scenario.fidelity_low }} to {{ r.scenario.fidelity_high }} of the estimated effect is realised</dd>
+  <dt class="col-sm-3">States</dt><dd class="col-sm-9">{{ r.n_states_changed }} changed of {{ r.n_states_simulated }} simulated; weights: {{ r.population_weight }}</dd>
+</dl>
+
+<h2>National result</h2>
+<div class="row g-3">
+  <div class="col-6 col-lg-3"><div class="panel h-100"><div class="stat">{{ h.baseline_national_oos|floatformat:1 }}%</div><div class="stat-label">baseline out-of-school rate</div></div></div>
+  <div class="col-6 col-lg-3"><div class="panel h-100"><div class="stat">{{ h.counterfactual_national_oos|floatformat:1 }}%</div><div class="stat-label">counterfactual (full fidelity)</div></div></div>
+  <div class="col-6 col-lg-3"><div class="panel h-100"><div class="stat">{{ h.absolute_change_pp|floatformat:2 }} pp</div><div class="stat-label">absolute change ({{ h.relative_change_pct|floatformat:1 }}% relative)<br><span class="interval">statistical 95% interval {{ h.statistical_interval_pp.0|floatformat:2 }} to {{ h.statistical_interval_pp.1|floatformat:2 }}</span></div></div></div>
+  <div class="col-6 col-lg-3"><div class="panel h-100"><div class="stat">{{ h.implementation_range_pp.0|floatformat:2 }} to {{ h.implementation_range_pp.1|floatformat:2 }}</div><div class="stat-label">pp, implementation-fidelity range<br><span class="interval">midpoint {{ h.midpoint_fidelity_change_pp|floatformat:2 }}</span></div></div></div>
+</div>
+<p class="small text-muted mt-2">{{ h.interval_note }} Statistical and implementation uncertainty are reported separately and are not combined.</p>
+{% include "portal/_chart.html" with fid="fig-headline" fig=charts.headline label="Baseline versus counterfactual national rate with uncertainty" %}
+
+<h2>Does it narrow inequality, or only improve the average?</h2>
+<div class="table-wrap"><table class="table table-sm"><caption class="visually-hidden">Inequality measures before and after</caption>
+<thead><tr><th scope="col">Measure</th><th scope="col" class="num">Baseline</th><th scope="col" class="num">Counterfactual</th><th scope="col" class="num">Change</th><th scope="col" class="num">95% interval of change</th></tr></thead>
+<tbody>
+<tr><th scope="row">National weighted mean (pp)</th><td class="num">{{ iq.baseline.national_weighted_mean|floatformat:2 }}</td><td class="num">{{ iq.counterfactual.national_weighted_mean|floatformat:2 }}</td><td class="num">{{ iq.change.national_weighted_mean|floatformat:2 }}</td><td class="num">{{ h.statistical_interval_pp.0|floatformat:2 }} to {{ h.statistical_interval_pp.1|floatformat:2 }}</td></tr>
+<tr><th scope="row">North-South gap (pp)</th><td class="num">{{ iq.baseline.gap_north_south|floatformat:2 }}</td><td class="num">{{ iq.counterfactual.gap_north_south|floatformat:2 }}</td><td class="num">{{ iq.change.gap_north_south|floatformat:2 }}</td><td class="num">{{ iq.statistical_interval_95.gap_north_south.0|floatformat:2 }} to {{ iq.statistical_interval_95.gap_north_south.1|floatformat:2 }}</td></tr>
+<tr><th scope="row">High-poverty minus low-poverty gap (pp)</th><td class="num">{{ iq.baseline.gap_high_low_poverty|floatformat:2 }}</td><td class="num">{{ iq.counterfactual.gap_high_low_poverty|floatformat:2 }}</td><td class="num">{{ iq.change.gap_high_low_poverty|floatformat:2 }}</td><td class="num">{{ iq.statistical_interval_95.gap_high_low_poverty.0|floatformat:2 }} to {{ iq.statistical_interval_95.gap_high_low_poverty.1|floatformat:2 }}</td></tr>
+<tr><th scope="row">Gini across states</th><td class="num">{{ iq.baseline.gini_across_states|floatformat:3 }}</td><td class="num">{{ iq.counterfactual.gini_across_states|floatformat:3 }}</td><td class="num">{{ iq.change.gini_across_states|floatformat:3 }}</td><td class="num">{{ iq.statistical_interval_95.gini_across_states.0|floatformat:3 }} to {{ iq.statistical_interval_95.gini_across_states.1|floatformat:3 }}</td></tr>
+</tbody></table></div>
+
+<h2>Subgroup effects</h2>
+<div class="table-wrap"><table class="table table-sm table-striped"><thead><tr><th scope="col">Group</th><th scope="col" class="num">States</th><th scope="col" class="num">Baseline</th><th scope="col" class="num">Counterfactual</th><th scope="col" class="num">Change (pp)</th></tr></thead>
+<tbody>{% for g in r.subgroups %}<tr><th scope="row">{{ g.group }}</th><td class="num">{{ g.n_states }}</td><td class="num">{{ g.baseline|floatformat:2 }}</td><td class="num">{{ g.counterfactual|floatformat:2 }}</td><td class="num">{{ g.change_pp|floatformat:2 }}</td></tr>{% endfor %}</tbody></table></div>
+
+<h2>State results</h2>
+{% include "portal/_chart.html" with fid="fig-states" fig=charts.states label="Change in out-of-school rate by state" %}
+<details><summary>State table</summary><div class="table-wrap mt-2"><table class="table table-sm table-striped">
+<thead><tr><th scope="col">State</th><th scope="col">Zone</th><th scope="col">Covered</th><th scope="col" class="num">PQTR now</th><th scope="col" class="num">PQTR scenario</th><th scope="col" class="num">OOS now</th><th scope="col" class="num">OOS scenario</th><th scope="col" class="num">Change</th><th scope="col" class="num">Extra qualified teachers</th></tr></thead>
+<tbody>{% for s in r.states %}<tr><th scope="row">{{ s.state }}</th><td>{{ s.zone }}</td><td>{{ s.covered|yesno:"yes,no" }}</td><td class="num">{{ s.pqtr_base|floatformat:1 }}</td><td class="num">{{ s.pqtr_new|floatformat:1 }}</td><td class="num">{{ s.oos_base|floatformat:1 }}</td><td class="num">{{ s.oos_cf|floatformat:1 }}</td><td class="num">{{ s.change_pp|floatformat:2 }}</td><td class="num">{{ s.extra_qualified_teachers|floatformat:0 }}</td></tr>{% endfor %}</tbody></table></div></details>
+<p class="mt-2">Resource requirement: about <strong>{{ r.extra_qualified_teachers_total|floatformat:0 }}</strong> additional qualified public teachers (arithmetic from pupil counts). No cost data exist, so this page makes no claim about cost-effectiveness.</p>
+
+<h2>Assumptions</h2>
+<ul>{% for a in r.assumptions %}<li>{{ a }}</li>{% endfor %}</ul>
+{% endwith %}

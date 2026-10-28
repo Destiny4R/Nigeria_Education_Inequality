@@ -1,0 +1,7 @@
+{% extends "portal/base.html" %}
+{% block title %}Not computed yet{% endblock %}
+{% block content %}
+<h1>Not available yet</h1>
+<div class="caveat"><strong>The {{ what }} has not been computed</strong>The site operator needs to run the <code>run_standard_analyses</code> command. Nothing is shown rather than showing placeholder numbers.</div>
+<p><a href="{% url 'home' %}">Back to home</a></p>
+{% endblock %}

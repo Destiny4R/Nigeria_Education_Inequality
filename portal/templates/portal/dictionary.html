@@ -1,0 +1,17 @@
+{% extends "portal/base.html" %}
+{% block title %}Data dictionary{% endblock %}
+{% block content %}
+<h1>Data dictionary</h1>
+<p class="lead-muted">Variable definitions, sources and permitted use. Variables listed as unavailable are stated openly rather than approximated.</p>
+<div class="table-wrap"><table class="table table-sm table-striped"><caption class="visually-hidden">Data dictionary</caption>
+<thead><tr><th scope="col">Variable</th><th scope="col">Definition</th><th scope="col">Analytical role</th><th scope="col">Source</th></tr></thead>
+<tbody>{% for v, defn, role, src in dictionary %}<tr><th scope="row"><code>{{ v }}</code></th><td>{{ defn }}</td><td>{{ role }}</td><td>{{ src }}</td></tr>{% endfor %}</tbody></table></div>
+
+<h2>Columns in the analytical dataset</h2>
+<div class="table-wrap"><table class="table table-sm"><thead><tr><th scope="col">Column</th><th scope="col">Type</th><th scope="col" class="num">Valid values</th></tr></thead>
+<tbody>{% for c in columns %}<tr><td><code>{{ c.name }}</code></td><td>{{ c.dtype }}</td><td class="num">{{ c.n_valid }}</td></tr>{% endfor %}</tbody></table></div>
+
+<h2>Indicator definitions</h2>
+<div class="table-wrap"><table class="table table-sm"><thead><tr><th scope="col">Code</th><th scope="col">Label</th><th scope="col">Unit</th><th scope="col">Direction</th><th scope="col">Denominator</th></tr></thead>
+<tbody>{% for i in indicators %}<tr><td><code>{{ i.code }}</code></td><td>{{ i.label }}</td><td>{{ i.unit }}</td><td>{{ i.direction }}</td><td>{{ i.denominator }}</td></tr>{% endfor %}</tbody></table></div>
+{% endblock %}

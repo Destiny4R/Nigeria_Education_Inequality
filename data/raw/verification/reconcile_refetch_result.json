@@ -1,0 +1,51 @@
+{
+ "refetch_dir": "data/raw/verification/refetch_2026-10-24",
+ "tables": {
+  "Table 2.15 gross/net enrolment 2015/16": {
+   "rows_compared": 38,
+   "cells_compared": 684,
+   "n_differences": 0,
+   "differences": [],
+   "rows_only_in_existing": [],
+   "rows_only_in_refetch": [],
+   "existing_file": "nemis_2015_16_gross_net_enrolment.csv",
+   "refetch_file": "fme_table_2_15_gross_net_enrolment_primary_2015_16.csv"
+  },
+  "Table 2.23 out-of-school children 2015/16": {
+   "rows_compared": 38,
+   "cells_compared": 380,
+   "n_differences": 0,
+   "differences": [],
+   "rows_only_in_existing": [],
+   "rows_only_in_refetch": [],
+   "existing_file": "fme_2015_16_table2_23_oos_by_state.csv",
+   "refetch_file": "fme_table_2_23_out_of_school_children_6_11_2015_16.csv"
+  },
+  "Table 2.22 pupil-teacher ratio 2013/14-2015/16": {
+   "rows_compared": 38,
+   "cells_compared": 570,
+   "n_differences": 0,
+   "differences": [],
+   "rows_only_in_existing": [],
+   "rows_only_in_refetch": [],
+   "existing_file": "nemis_2013_16_public_primary_teachers.csv",
+   "refetch_file": "fme_table_2_22_pupil_teacher_ratio_public_primary_2013_16.csv"
+  },
+  "NBS NLSS 2018/19 poverty headcount": {
+   "rows_compared": 37,
+   "cells_compared": 37,
+   "n_differences": 0,
+   "differences": [],
+   "rows_only_in_existing": [],
+   "rows_only_in_refetch": [
+    "NIGERIA",
+    "Urban",
+    "Rural"
+   ],
+   "existing_file": "nbs_poverty_2018_19.csv",
+   "refetch_file": "nbs_nlss_2018_19_poverty_headcount_by_state.csv"
+  }
+ },
+ "total_cells": 1671,
+ "total_differences": 0
+}

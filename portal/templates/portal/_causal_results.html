@@ -1,0 +1,82 @@
+{% with sp=r.specification %}
+<h2>Verdict</h2>
+<div class="caveat"><strong>{{ r.explanation.verdict }}</strong>
+<ul class="mb-0 mt-2">{% for s in r.explanation.summary %}<li>{{ s }}</li>{% endfor %}</ul></div>
+{% if r.warnings %}<div class="caveat"><strong>Warnings</strong><ul class="mb-0">{% for w in r.warnings %}<li>{{ w }}</li>{% endfor %}</ul></div>{% endif %}
+
+<h2>1. Causal question</h2>
+<dl class="row">
+  <dt class="col-sm-3">Treatment</dt><dd class="col-sm-9"><code>{{ sp.treatment }}</code></dd>
+  <dt class="col-sm-3">Outcome</dt><dd class="col-sm-9"><code>{{ sp.outcome }}</code></dd>
+  <dt class="col-sm-3">Confounders</dt><dd class="col-sm-9">{% for c in sp.confounders %}<code>{{ c }}</code>{% if not forloop.last %}, {% endif %}{% endfor %}</dd>
+  <dt class="col-sm-3">Estimand</dt><dd class="col-sm-9">{{ sp.estimand }}</dd>
+  <dt class="col-sm-3">Unit / sample</dt><dd class="col-sm-9">{{ sp.unit_of_analysis }}; n = {{ sp.n }}</dd>
+</dl>
+<details class="mb-3"><summary>States in the sample ({{ sp.states|length }})</summary><p class="mt-2">{{ sp.states|join:", " }}</p></details>
+<h3>Assumptions</h3>
+<ul>{% for a in sp.assumptions %}<li>{{ a }}</li>{% endfor %}</ul>
+<div class="row">
+  <div class="col-lg-6">{% include "portal/_chart.html" with fid="fig-dag" fig=charts.dag label="Assumed causal graph" caption="Graph used for identification." %}</div>
+  <div class="col-lg-6">{% include "portal/_chart.html" with fid="fig-dag-threat" fig=charts.dag_threat label="Causal graph with an unmeasured common cause" caption="Threat scenario: an unobserved confounder U." %}</div>
+</div>
+
+<h2>2. Identification</h2>
+<ul>
+  <li>Assumed graph: backdoor adjustment set {% for c in r.identification.identifying_graph.backdoor_adjustment_set %}<code>{{ c }}</code>{% if not forloop.last %}, {% endif %}{% empty %}none{% endfor %}; identified: <strong>{{ r.identification.identifying_graph.identified|yesno:"yes,no" }}</strong> ({{ r.identification.identifying_graph.estimand_type }}).</li>
+  <li>With an unobserved common cause: identified by backdoor: <strong>{{ r.identification.threat_graph.identified_by_backdoor|yesno:"yes,no" }}</strong>. {{ r.identification.threat_graph.interpretation }}</li>
+  {% if r.identification.estimate %}<li>DoWhy estimate ({{ r.identification.estimate.method }}): {{ r.identification.estimate.coef_per_log_unit|floatformat:2 }} pp per log-unit of PQTR (interval {{ r.identification.estimate.ci_low|floatformat:2 }} to {{ r.identification.estimate.ci_high|floatformat:2 }}).</li>{% endif %}
+</ul>
+<h3>Which estimators are applicable here?</h3>
+<div class="table-wrap"><table class="table table-sm"><thead><tr><th scope="col">Method</th><th scope="col">Applicable</th><th scope="col">Reason</th></tr></thead>
+<tbody>{% for a in r.applicability %}<tr><th scope="row">{{ a.method }}</th><td>{% if a.applicable %}<span class="badge-status s-approved">yes</span>{% else %}<span class="badge-status s-rejected">no</span>{% endif %}</td><td>{{ a.reason }}</td></tr>{% endfor %}</tbody></table></div>
+
+<h2>3. Estimates and uncertainty</h2>
+{% include "portal/_estimates.html" with estimates=r.estimates %}
+{% include "portal/_chart.html" with fid="fig-forest" fig=charts.forest label="Forest plot of estimates" caption="Points are estimates, bars are 95% intervals. Negative values mean a lower out-of-school rate." %}
+
+<h3>Overlap and balance</h3>
+<ul>
+  <li>PQTR range in the sample: {{ r.overlap_balance.treatment_range_pqtr.0|floatformat:1 }} to {{ r.overlap_balance.treatment_range_pqtr.1|floatformat:1 }}; R&sup2; of treatment on confounders {{ r.overlap_balance.treatment_given_confounders_r2|floatformat:2 }}.</li>
+  <li>North: n = {{ r.overlap_balance.n_by_region.North }}, PQTR {{ r.overlap_balance.pqtr_range_by_region.North.0|floatformat:1 }} to {{ r.overlap_balance.pqtr_range_by_region.North.1|floatformat:1 }}; South: n = {{ r.overlap_balance.n_by_region.South }}, PQTR {{ r.overlap_balance.pqtr_range_by_region.South.0|floatformat:1 }} to {{ r.overlap_balance.pqtr_range_by_region.South.1|floatformat:1 }}.</li>
+  <li>Propensity weighting: balance achieved <strong>{{ r.overlap_balance.gps.balance_achieved|yesno:"yes,no" }}</strong> (largest weighted correlation {{ r.overlap_balance.gps.max_abs_weighted_corr|floatformat:2 }}). {{ r.overlap_balance.gps.balance_note }}</li>
+</ul>
+
+<h2>4. Sensitivity to unmeasured confounding</h2>
+<p>{{ r.sensitivity_unmeasured_confounding.interpretation }}</p>
+<p class="small text-muted">t = {{ r.sensitivity_unmeasured_confounding.t_statistic|floatformat:2 }} (df {{ r.sensitivity_unmeasured_confounding.dof }}); partial R&sup2; of treatment with outcome {{ r.sensitivity_unmeasured_confounding.partial_r2_treatment_outcome|floatformat:3 }}; robustness value {{ r.sensitivity_unmeasured_confounding.robustness_value_q1|floatformat:3 }} (to reduce the estimate to zero), {{ r.sensitivity_unmeasured_confounding.robustness_value_q1_alpha05|floatformat:3 }} (to make it insignificant at 5%).</p>
+
+<h2>5. Robustness and refutation</h2>
+<h3>Refutation tests (DoWhy)</h3>
+<div class="table-wrap"><table class="table table-sm"><thead><tr><th scope="col">Test</th><th scope="col">Expectation</th><th scope="col" class="num">Original</th><th scope="col" class="num">New</th><th scope="col" class="num">p</th></tr></thead>
+<tbody>{% for t in r.identification.refutations %}<tr><th scope="row">{{ t.test }}</th><td>{{ t.expectation }}</td><td class="num">{{ t.original|floatformat:2 }}</td><td class="num">{{ t.new|floatformat:2 }}</td><td class="num">{{ t.p_value|floatformat:2 }}</td></tr>{% endfor %}</tbody></table></div>
+<p class="small text-muted">Passing a refutation test does not prove the causal assumptions; it shows the estimate is not trivially fragile.</p>
+{% include "portal/_chart.html" with fid="fig-spec" fig=charts.spec label="Specification curve" caption="Estimates across alternative specifications." %}
+{% with ro=r.robustness %}
+<ul>
+  <li>Leave-one-state-out coefficient range: {{ ro.leave_one_out.min|floatformat:2 }} ({{ ro.leave_one_out.state_at_min }}) to {{ ro.leave_one_out.max|floatformat:2 }} ({{ ro.leave_one_out.state_at_max }}); sign changes: {{ ro.leave_one_out.sign_changes|yesno:"yes,no" }}.</li>
+  <li>Leave-one-zone-out coefficients: {% for z, v in ro.leave_one_zone_out.items %}{{ z }} {{ v|floatformat:2 }}{% if not forloop.last %}; {% endif %}{% endfor %}.</li>
+  <li>Most influential states (Cook's D): {% for s, v in ro.top_influence_cooks_d.items %}{{ s }} {{ v|floatformat:2 }}{% if not forloop.last %}, {% endif %}{% endfor %}.</li>
+  <li>Permutation-test p-value: {{ ro.permutation_p_value|floatformat:3 }}. Pairs-bootstrap interval: {{ ro.pairs_bootstrap_baseline.ci_low|floatformat:2 }} to {{ ro.pairs_bootstrap_baseline.ci_high|floatformat:2 }} (log-unit coefficient).</li>
+  <li>Linear-treatment specification: {{ ro.linear_treatment.coef_per_10_pupils|floatformat:2 }} pp per 10 pupils (interval {{ ro.linear_treatment.ci_low|floatformat:2 }} to {{ ro.linear_treatment.ci_high|floatformat:2 }}). {{ ro.fractional_logit.note }}</li>
+</ul>
+{% endwith %}
+
+<h2>6. Do effects differ across groups? (exploratory)</h2>
+<div class="table-wrap"><table class="table table-sm"><thead><tr><th scope="col">Subgroup</th><th scope="col" class="num">n</th><th scope="col" class="num">Effect of 10% cut (pp)</th><th scope="col" class="num">95% interval</th></tr></thead>
+<tbody>{% for g, e in r.subgroups.strata.items %}<tr><th scope="row">{{ g }}</th><td class="num">{{ e.n }}</td><td class="num">{{ e.effect_10pct_reduction|floatformat:2 }}</td><td class="num">{{ e.effect_10pct_ci_low|floatformat:2 }} to {{ e.effect_10pct_ci_high|floatformat:2 }}</td></tr>{% endfor %}</tbody></table></div>
+<p>Region interaction: coefficient {{ r.subgroups.interaction_test.coef|floatformat:2 }} (SE {{ r.subgroups.interaction_test.se|floatformat:2 }}, p = {{ r.subgroups.interaction_test.p_value|floatformat:2 }}). {{ r.subgroups.note }}</p>
+
+<h2>7. Other outcomes</h2>
+{% include "portal/_estimates.html" with estimates=r.secondary_outcomes %}
+
+<h2>8. Explainability (predictive, not causal)</h2>
+<div class="caveat"><strong>Caution</strong>{{ r.explainability.caution }}</div>
+<div class="row">
+  <div class="col-lg-6">{% include "portal/_chart.html" with fid="fig-shap" fig=charts.shap label="Feature importance" %}</div>
+  <div class="col-lg-6">{% include "portal/_chart.html" with fid="fig-pred" fig=charts.pred label="Predictive error of baseline and fitted models" caption="Leave-one-state-out and leave-one-zone-out error." %}</div>
+</div>
+
+<details><summary>Software versions and configuration</summary>
+<p class="mt-2">{% for k, v in r.software_versions.items %}{{ k }} {{ v }}{% if not forloop.last %} · {% endif %}{% endfor %}</p>
+<p>Configuration: {% for k, v in r.config.items %}<code>{{ k }}={{ v }}</code> {% endfor %}</p></details>
+{% endwith %}

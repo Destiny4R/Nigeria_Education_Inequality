@@ -1,0 +1,6 @@
+{% extends "portal/base.html" %}
+{% block title %}Page not found{% endblock %}
+{% block content %}
+<h1>Page not found</h1>
+<p>The page or file you asked for does not exist. Try the <a href="{% url 'dashboard' %}">dashboard</a> or the <a href="{% url 'data_home' %}">data pages</a>.</p>
+{% endblock %}

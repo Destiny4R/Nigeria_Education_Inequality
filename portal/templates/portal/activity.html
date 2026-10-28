@@ -1,0 +1,9 @@
+{% extends "portal/base.html" %}
+{% block title %}Activity log{% endblock %}
+{% block content %}
+<h1>Activity log</h1>
+<p class="lead-muted">Anonymous record of actions on this open site ({{ n }} entries; latest 200 shown). Client addresses are stored only as short salted hashes.</p>
+<div class="table-wrap"><table class="table table-sm table-striped"><caption class="visually-hidden">Audit log</caption>
+<thead><tr><th scope="col">Time (UTC)</th><th scope="col">Action</th><th scope="col">Object</th><th scope="col">Client</th><th scope="col">Details</th></tr></thead>
+<tbody>{% for l in logs %}<tr><td>{{ l.created_at|date:"Y-m-d H:i:s" }}</td><td>{{ l.action }}</td><td>{{ l.object_type }} <code>{{ l.object_id|truncatechars:12 }}</code></td><td><code>{{ l.client_hash }}</code></td><td class="small">{{ l.details }}</td></tr>{% empty %}<tr><td colspan="5">No activity recorded.</td></tr>{% endfor %}</tbody></table></div>
+{% endblock %}

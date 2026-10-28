@@ -1,0 +1,41 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ SITE_TITLE }}{% endblock %} | {{ SITE_TITLE }}</title>
+<meta name="description" content="{% block description %}Open research portal measuring educational inequality in Nigeria with published data, causal analysis and policy what-if simulation.{% endblock %}">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="{% static 'portal/vendor/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'portal/site.css' %}">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header>
+<nav class="navbar navbar-expand-lg site-nav" aria-label="Main">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'home' %}">{{ SITE_TITLE }}</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto">
+        {% for name, label in NAV %}
+        <li class="nav-item"><a class="nav-link{% if request.resolver_match.url_name == name %} active{% endif %}"{% if request.resolver_match.url_name == name %} aria-current="page"{% endif %} href="{% url name %}">{{ label }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</nav>
+</header>
+<main id="main" class="container py-4" tabindex="-1">
+{% block content %}{% endblock %}
+</main>
+<footer class="footer">
+  <div class="container">
+    <p class="mb-1"><strong>Read this first:</strong> findings on this site come from real published data (with documented quality problems); policy simulations are hypothetical what-if calculations, not forecasts. Causal estimates are adjusted associations unless the page says otherwise.</p>
+    <p class="mb-0">Open-access research portal: no accounts, no login. <a href="{% url 'status' %}">System status</a> · <a href="{% url 'activity' %}">Activity log</a> · <a href="{% url 'data_home' %}">Data sources</a>{% if fingerprint %} · data fingerprint <code>{{ fingerprint|slice:":12" }}</code>{% endif %}</p>
+  </div>
+</footer>
+<script src="{% static 'portal/vendor/bootstrap.bundle.min.js' %}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

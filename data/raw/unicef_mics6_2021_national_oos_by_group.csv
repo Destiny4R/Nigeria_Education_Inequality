@@ -1,0 +1,11 @@
+group_type,group,oos_primary,oos_lower_secondary,oos_upper_secondary
+total,Total,26,25,34
+sex,Male,25,24,33
+sex,Female,26,26,35
+area,Urban,11,10,21
+area,Rural,35,36,44
+wealth,Poorest,58,58,68
+wealth,Second,33,33,43
+wealth,Middle,15,15,25
+wealth,Fourth,9,10,18
+wealth,Richest,5,6,21

@@ -1,0 +1,73 @@
+{% extends "portal/base.html" %}
+{% block title %}Inequality analysis{% endblock %}
+{% block content %}
+<h1>Inequality analysis</h1>
+<p class="lead-muted">Choose an indicator and filters. Each query is stored as a reproducible analysis run.</p>
+
+<form method="get" class="panel bsform" action="{% url 'inequality' %}">
+  {{ form.non_field_errors }}
+  <div class="row">
+    <div class="col-md-4">{% include "portal/_field.html" with f=form.indicator %}</div>
+    <div class="col-md-2">{% include "portal/_field.html" with f=form.region %}</div>
+    <div class="col-md-2">{% include "portal/_field.html" with f=form.zone %}</div>
+    <div class="col-md-2">{% include "portal/_field.html" with f=form.poverty_group %}</div>
+    <div class="col-md-2">{% include "portal/_field.html" with f=form.level %}</div>
+  </div>
+  <details class="mb-3"><summary>Pick individual states (optional)</summary><div class="mt-2">{% include "portal/_field.html" with f=form.states %}</div></details>
+  <button class="btn btn-primary" type="submit">Run analysis</button>
+</form>
+
+{% if error %}<div class="caveat" role="alert"><strong>Could not run this analysis</strong>{{ error }}</div>{% endif %}
+
+{% if r %}
+<p>Indicator: <strong>{{ r.indicator.label }}</strong> ({{ r.indicator.unit }}). {{ r.n_states_with_value }} of {{ r.n_states_selected }} selected states have a value.
+{% if run %}<a href="{% url 'run_detail' run.public_id %}">Run details</a> · <a href="{% url 'inequality_export' %}?{{ querystring }}">Download ranking (CSV)</a>{% endif %}</p>
+<div class="note"><strong>Definition.</strong> {{ r.indicator.interpretation }} Denominator: {{ r.indicator.denominator }}. Weighting: {{ r.indicator.weighting }}. Missing data: {{ r.indicator.missing_rule }}. Source: {{ r.indicator.source }}.</div>
+{% if not r.indicator.comparable %}<div class="caveat"><strong>Not comparable across states</strong>This indicator has non-comparable definitions or implausible values for some states; do not read the ranking as a league table.</div>{% endif %}
+{% for w in r.warnings %}<div class="caveat"><strong>Warning</strong>{{ w }}</div>{% endfor %}
+
+<h2>Summary</h2>
+<div class="table-wrap"><table class="table table-sm"><caption class="visually-hidden">Inequality profile</caption><tbody>
+<tr><th scope="row">Weighted mean (unweighted)</th><td class="num">{{ r.profile.weighted_mean|floatformat:2 }} ({{ r.profile.unweighted_mean|floatformat:2 }})</td></tr>
+<tr><th scope="row">Lowest</th><td class="num">{{ r.profile.min.state }}: {{ r.profile.min.value|floatformat:1 }}</td></tr>
+<tr><th scope="row">Highest</th><td class="num">{{ r.profile.max.state }}: {{ r.profile.max.value|floatformat:1 }}</td></tr>
+<tr><th scope="row">Range / max-min ratio / P90:P10 ratio</th><td class="num">{{ r.profile.range|floatformat:1 }} / {{ r.profile.max_min_ratio|floatformat:1 }} / {{ r.profile.p90_p10_ratio|floatformat:1 }}</td></tr>
+<tr><th scope="row">Gini / Theil T / coefficient of variation</th><td class="num">{{ r.profile.gini|floatformat:3 }} / {{ r.profile.theil_t|floatformat:3 }} / {{ r.profile.cv|floatformat:3 }}</td></tr>
+{% if r.regional_gap %}<tr><th scope="row">North minus South gap (state-resampling 95% interval)</th><td class="num">{{ r.regional_gap.gap|floatformat:1 }} ({{ r.regional_gap.ci_low|floatformat:1 }} to {{ r.regional_gap.ci_high|floatformat:1 }}); ratio {{ r.regional_gap.ratio|floatformat:1 }}</td></tr>{% endif %}
+{% if r.poverty_gradient %}<tr><th scope="row">Wagstaff concentration index by poverty / Spearman rho</th><td class="num">{{ r.poverty_gradient.concentration_index_wagstaff|floatformat:3 }} / {{ r.poverty_gradient.spearman_oos_poverty|floatformat:2 }} (n={{ r.poverty_gradient.n_states }})</td></tr>{% endif %}
+</tbody></table></div>
+<p class="small text-muted">Profile weights: {{ r.profile.weight }}. {% if r.regional_gap %}{{ r.regional_gap.note }}{% endif %} {% if r.poverty_gradient %}{{ r.poverty_gradient.note }}{% endif %}</p>
+
+<h2>States</h2>
+{% include "portal/_chart.html" with fid="fig-bars" fig=charts.bars label="State ranking" %}
+{% if charts.zones %}{% include "portal/_chart.html" with fid="fig-zones" fig=charts.zones label="Zone means with state ranges" %}{% endif %}
+<div class="row">
+  {% if charts.lorenz %}<div class="col-lg-6">{% include "portal/_chart.html" with fid="fig-lorenz" fig=charts.lorenz label="Lorenz curve" %}</div>{% endif %}
+  <div class="col-lg-6">{% include "portal/_chart.html" with fid="fig-scatter" fig=charts.scatter label="Out-of-school rate against poverty" caption="Association across states, not a causal relationship." %}</div>
+</div>
+<details><summary>Ranking table ({{ r.ranking|length }} states)</summary>
+<div class="table-wrap mt-2"><table class="table table-sm table-striped"><caption class="visually-hidden">State ranking</caption>
+<thead><tr><th scope="col">Rank</th><th scope="col">State</th><th scope="col">Zone</th><th scope="col" class="num">{{ r.indicator.unit }}</th><th scope="col">Data flags</th></tr></thead>
+<tbody>{% for x in r.ranking %}<tr><td>{{ x.rank }}</td><th scope="row">{{ x.state }}</th><td>{{ x.zone }}</td><td class="num">{% for k, v in x.items %}{% if k == r.indicator.code %}{{ v|floatformat:1 }}{% endif %}{% endfor %}</td><td class="small">{{ x.flags }}</td></tr>{% endfor %}</tbody></table></div></details>
+
+{% if r.zone_summary %}<h3>Zones</h3><div class="table-wrap"><table class="table table-sm"><thead><tr><th scope="col">Zone</th><th scope="col" class="num">States</th><th scope="col" class="num">Weighted mean</th><th scope="col" class="num">Min</th><th scope="col" class="num">Max</th></tr></thead><tbody>{% for z in r.zone_summary %}<tr><th scope="row">{{ z.zone }}</th><td class="num">{{ z.n_states }}</td><td class="num">{{ z.mean|floatformat:1 }}</td><td class="num">{{ z.min|floatformat:1 }}</td><td class="num">{{ z.max|floatformat:1 }}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
+
+<h2>National groups (wealth, area, sex)</h2>
+{% include "portal/_chart.html" with fid="fig-national" fig=charts.national label="National out-of-school rates by group" %}
+{% with w=r.national_groups.wealth a=r.national_groups.area s=r.national_groups.sex %}
+<ul>
+  <li>Wealth: poorest-to-richest gap {{ w.absolute_gap_poorest_richest|floatformat:0 }} points (ratio {{ w.ratio_poorest_richest|floatformat:1 }}); concentration index {{ w.concentration_index_wagstaff|floatformat:2 }}; relative index of inequality {{ w.rii|floatformat:1 }}.</li>
+  <li>Area: rural minus urban {{ a.absolute_gap_rural_urban|floatformat:0 }} points (ratio {{ a.ratio_rural_urban|floatformat:1 }}).</li>
+  <li>Sex: female minus male {{ s.absolute_gap_female_male|floatformat:0 }} point(s) (ratio {{ s.ratio_female_male|floatformat:2 }}).</li>
+</ul>
+{% if w.sii_out_of_range %}<div class="note">{{ w.note }}</div>{% endif %}
+{% endwith %}
+<p class="small text-muted">{{ r.national_groups.note }}</p>
+
+{% if charts.gender %}<h2>Gender gap by state</h2>{% include "portal/_chart.html" with fid="fig-gender" fig=charts.gender label="Girls versus boys out-of-school rates by state" %}{% endif %}
+
+{% if r.resource_inequality %}<h2>Teacher resource inequality</h2>
+<p>Across {{ r.resource_inequality.n_states }} states with a valid ratio, pupils per qualified teacher range from {{ r.resource_inequality.pqtr_min|floatformat:1 }} to {{ r.resource_inequality.pqtr_max|floatformat:1 }} (median {{ r.resource_inequality.pqtr_median|floatformat:1 }}; max/min {{ r.resource_inequality.pqtr_max_min_ratio|floatformat:1 }}). Gini of qualified teachers per 1,000 pupils: {{ r.resource_inequality.gini_qualified_teachers_per_1000_pupils|floatformat:2 }}. <span class="text-muted small">{{ r.resource_inequality_note }}</span></p>{% endif %}
+{% endif %}
+{% endblock %}
+{% block scripts %}{% if r %}{% include "portal/_chart_scripts.html" %}{% endif %}{% endblock %}

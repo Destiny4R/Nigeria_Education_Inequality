@@ -1,0 +1,11 @@
+indicator,group,value_percent,survey,age_group,note
+primary_net_attendance,total,59,DHS 2013,6-11,trend table total
+primary_net_attendance,male,62,DHS 2013,6-11,SOWC 2015 / DHS 2013 trend table; column order inferred by retrieval
+primary_net_attendance,female,57,DHS 2013,6-11,SOWC 2015 / DHS 2013 trend table; column order inferred by retrieval
+primary_net_attendance,urban,87,MICS 2011,6-11,column order inferred by retrieval
+primary_net_attendance,rural,62,MICS 2011,6-11,column order inferred by retrieval
+primary_net_attendance,poorest_quintile,34,MICS 2011,6-11,column order inferred by retrieval
+primary_net_attendance,richest_quintile,94,MICS 2011,6-11,column order inferred by retrieval
+secondary_net_attendance,male,53,DHS 2013,12-17,SOWC 2015 / DHS 2013 trend table
+secondary_net_attendance,female,45,DHS 2013,12-17,SOWC 2015 / DHS 2013 trend table
+secondary_net_attendance,total,49,DHS 2013,12-17,trend table total

@@ -1,0 +1,43 @@
+{% extends "portal/base.html" %}
+{% block title %}{{ run.get_analysis_type_display }} run{% endblock %}
+{% block content %}
+<p><a href="{% url 'reports' %}">&larr; Analysis history</a></p>
+<h1>{{ run.get_analysis_type_display }}{% if run.label %}: {{ run.label }}{% endif %}</h1>
+<p><span class="badge-status s-{{ run.status }}">{{ run.status }}</span> <span class="text-muted small">run {{ run.public_id }}, created {{ run.created_at|date:"j M Y H:i" }}{% if run.duration %}, {{ run.duration|floatformat:1 }} s{% endif %}</span></p>
+
+{% if run.status == "queued" or run.status == "running" %}
+<div class="panel" id="run-status" data-status-url="{% url 'run_status' run.public_id %}" role="status" aria-live="polite">
+  <strong>This analysis is in progress.</strong> Status: <span data-progress>{{ run.status }}{% if run.progress %} - {{ run.progress }}{% endif %}</span>. The page reloads when it finishes.
+</div>
+{% elif run.status == "failed" %}
+<div class="caveat" role="alert"><strong>This run failed</strong><pre class="mb-2 small" style="white-space:pre-wrap">{{ run.error|truncatechars:1500 }}</pre>
+Failed runs never store results. Retries used: {{ run.retries }}.
+{% if can_retry %}<form method="post" action="{% url 'run_retry' run.public_id %}" class="mt-2">{% csrf_token %}<button class="btn btn-primary btn-sm" type="submit">Retry</button></form>{% else %}<p class="mb-0">No retries remain.</p>{% endif %}</div>
+{% else %}
+<p>Download: <a href="{% url 'run_export' run.public_id 'pdf' %}">PDF</a> · <a href="{% url 'run_export' run.public_id 'xlsx' %}">Excel</a> · <a href="{% url 'run_export' run.public_id 'json' %}">JSON</a></p>
+
+{% if run.analysis_type == "causal" %}{% include "portal/_causal_results.html" %}
+{% elif run.analysis_type == "simulation" %}{% include "portal/_sim_results.html" %}
+{% else %}
+<div class="note"><strong>{{ r.indicator.label }}</strong> ({{ r.indicator.unit }}). {{ r.indicator.interpretation }} Denominator: {{ r.indicator.denominator }}. Weighting: {{ r.indicator.weighting }}.</div>
+{% for w in r.warnings %}<div class="caveat"><strong>Warning</strong>{{ w }}</div>{% endfor %}
+<p>{{ r.n_states_with_value }} of {{ r.n_states_selected }} states have a value. Weighted mean {{ r.profile.weighted_mean|floatformat:2 }}; Gini {{ r.profile.gini|floatformat:3 }}; highest {{ r.profile.max.state }} ({{ r.profile.max.value|floatformat:1 }}), lowest {{ r.profile.min.state }} ({{ r.profile.min.value|floatformat:1 }}).{% if r.regional_gap %} North minus South gap {{ r.regional_gap.gap|floatformat:1 }} (interval {{ r.regional_gap.ci_low|floatformat:1 }} to {{ r.regional_gap.ci_high|floatformat:1 }}).{% endif %}</p>
+{% include "portal/_chart.html" with fid="fig-bars" fig=charts.bars label="State ranking" %}
+{% include "portal/_chart.html" with fid="fig-national" fig=charts.national label="National group rates" %}
+<p><a href="{% url 'inequality' %}">Run another inequality analysis</a></p>
+{% endif %}
+
+<h2>Provenance</h2>
+<dl class="row">
+  <dt class="col-sm-3">Configuration hash</dt><dd class="col-sm-9"><code>{{ run.config_hash }}</code></dd>
+  <dt class="col-sm-3">Data SHA-256</dt><dd class="col-sm-9"><code>{{ run.data_sha256 }}</code></dd>
+  <dt class="col-sm-3">Results SHA-256</dt><dd class="col-sm-9"><code>{{ run.results_sha256 }}</code></dd>
+  <dt class="col-sm-3">Software</dt><dd class="col-sm-9">{% for k, v in run.software_versions.items %}{{ k }} {{ v }}{% if not forloop.last %} · {% endif %}{% endfor %}</dd>
+</dl>
+<details><summary>Configuration</summary><pre class="mono mt-2" style="white-space:pre-wrap">{{ run.config }}</pre></details>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+{% load static %}
+{% if run.status == "succeeded" %}{% include "portal/_chart_scripts.html" %}{% elif run.status == "queued" or run.status == "running" %}<script src="{% static 'portal/run_status.js' %}"></script>{% endif %}
+{% endblock %}

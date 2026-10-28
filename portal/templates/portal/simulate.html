@@ -1,0 +1,36 @@
+{% extends "portal/base.html" %}
+{% block title %}Policy simulator{% endblock %}
+{% block content %}
+<h1>Policy simulator</h1>
+<p class="lead-muted">Explore a hypothetical change in teacher quality and see the estimated effect on out-of-school rates, with uncertainty and with the effect on inequality, not just the average.</p>
+<div class="caveat"><strong>What this is</strong>A what-if calculation that applies the causal module's estimate, which is currently statistically indistinguishable from zero. Intervals will usually include zero. Scenarios are saved publicly and are never ranked by cost.</div>
+
+<div class="row">
+  <div class="col-lg-7">
+    <form method="post" class="panel bsform" action="{% url 'simulate' %}">
+      {% csrf_token %}{{ form.non_field_errors }}
+      <h2 class="mt-0 h5">Build a scenario</h2>
+      {% include "portal/_field.html" with f=form.name %}
+      {% include "portal/_field.html" with f=form.description %}
+      <div class="row"><div class="col-md-7">{% include "portal/_field.html" with f=form.intervention %}</div><div class="col-md-5">{% include "portal/_field.html" with f=form.value %}</div></div>
+      <div class="row"><div class="col-md-6">{% include "portal/_field.html" with f=form.coverage %}</div><div class="col-md-3">{% include "portal/_field.html" with f=form.region %}</div><div class="col-md-3">{% include "portal/_field.html" with f=form.poverty_min %}</div></div>
+      <details class="mb-3"><summary>States (when coverage is an explicit list)</summary><div class="mt-2">{% include "portal/_field.html" with f=form.states %}</div></details>
+      {% include "portal/_field.html" with f=form.effect_model %}
+      <div class="row"><div class="col-md-4">{% include "portal/_field.html" with f=form.fidelity_low %}</div><div class="col-md-4">{% include "portal/_field.html" with f=form.fidelity_high %}</div><div class="col-md-4">{% include "portal/_field.html" with f=form.n_draws %}</div></div>
+      <button class="btn btn-primary" type="submit">Run simulation</button>
+    </form>
+  </div>
+  <div class="col-lg-5">
+    <div class="panel">
+      <h2 class="mt-0 h5">Preset scenarios</h2>
+      <ul>{% for p in presets %}{% with sr=p.simulations.first %}<li>{% if sr %}<a href="{% url 'run_detail' sr.run.public_id %}">{{ p.name }}</a>{% else %}{{ p.name }}{% endif %}<div class="small text-muted">{{ p.description }}</div></li>{% endwith %}{% empty %}<li>No presets loaded.</li>{% endfor %}</ul>
+      <p class="mb-0"><a href="{% url 'simulate_compare' %}">Compare the presets side by side</a></p>
+    </div>
+  </div>
+</div>
+
+<h2>Recently saved simulations</h2>
+<div class="table-wrap"><table class="table table-sm table-striped"><caption class="visually-hidden">Saved simulations</caption>
+<thead><tr><th scope="col">Scenario</th><th scope="col">Saved</th><th scope="col">Result</th></tr></thead>
+<tbody>{% for s in saved %}<tr><th scope="row">{{ s.scenario.name }}</th><td>{{ s.created_at|date:"j M Y H:i" }}</td><td><a href="{% url 'run_detail' s.run.public_id %}">Open</a></td></tr>{% empty %}<tr><td colspan="3">None yet.</td></tr>{% endfor %}</tbody></table></div>
+{% endblock %}

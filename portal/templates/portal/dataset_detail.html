@@ -1,0 +1,35 @@
+{% extends "portal/base.html" %}
+{% block title %}{{ d.name }}{% endblock %}
+{% block content %}
+<p><a href="{% url 'data_home' %}">&larr; All data</a></p>
+<h1>{{ d.name }}</h1>
+<p class="lead-muted">{{ d.dataset_id }} · source {{ d.source.source_id }} · unit: {{ d.unit_of_analysis }}</p>
+<p>Role: {{ d.role|default:"-" }}. Raw file: <code>{{ d.raw_file }}</code>.</p>
+{% if v %}
+<h2>Readiness: {% include "portal/_badge.html" with value=v.readiness %}</h2>
+<p>Version {{ v.version }}, {{ v.n_rows }} rows, {{ v.size_bytes }} bytes, checksum <code>{{ v.sha256 }}</code>, registered {{ v.created_at|date:"j M Y H:i" }}.</p>
+{% with q=v.quality_report %}
+<h3>Why this status</h3>
+<ul>{% for x in q.readiness_reasons %}<li>{{ x }}</li>{% endfor %}</ul>
+{% if q.rejected_columns %}<div class="caveat"><strong>Rejected columns</strong><ul class="mb-0">{% for c, why in q.rejected_columns.items %}<li><code>{{ c }}</code>: {{ why }}</li>{% endfor %}</ul></div>{% endif %}
+
+<h3>Quality checks</h3>
+<div class="table-wrap"><table class="table table-sm table-striped"><caption class="visually-hidden">Quality checks</caption>
+<thead><tr><th scope="col">Rule</th><th scope="col">Check</th><th scope="col" class="num">Checked</th><th scope="col" class="num">Failed</th><th scope="col">Severity</th><th scope="col">Action</th><th scope="col">States</th></tr></thead>
+<tbody>{% for c in q.checks %}<tr><td>{{ c.rule }}</td><td>{{ c.description }}</td><td class="num">{{ c.n_checked }}</td><td class="num">{{ c.n_failed }}</td><td>{{ c.severity }}</td><td>{{ c.action }}</td><td class="small">{{ c.states|join:", " }}</td></tr>{% endfor %}</tbody></table></div>
+
+<h3>Transformations applied</h3>
+<ol>{% for t in q.transformations %}<li>{% if t.rule %}<strong>{{ t.rule }}</strong> {% endif %}{{ t.description }}{% if t.n_rows is not None %} ({{ t.n_rows }} rows){% endif %}</li>{% endfor %}</ol>
+
+<h3>Missingness</h3>
+<div class="table-wrap"><table class="table table-sm"><thead><tr><th scope="col">Column</th><th scope="col">Missing</th></tr></thead><tbody>{% for c, mval in q.missingness.items %}<tr><td><code>{{ c }}</code></td><td>{{ mval }}</td></tr>{% endfor %}</tbody></table></div>
+
+<h3>Row-level flags</h3>
+<div class="table-wrap"><table class="table table-sm"><thead><tr><th scope="col">State</th><th scope="col">Flags</th></tr></thead><tbody>{% for s, f in q.flags.items %}<tr><th scope="row">{{ s }}</th><td class="small">{{ f }}</td></tr>{% empty %}<tr><td colspan="2">No flags.</td></tr>{% endfor %}</tbody></table></div>
+{% endwith %}
+<p><a href="{% url 'data_download' d.dataset_id %}">Download cleaned dataset (CSV)</a></p>
+{% if versions|length > 1 %}<h3>Version history</h3><ul>{% for x in versions %}<li>v{{ x.version }}: {{ x.readiness }}, <code>{{ x.sha256|slice:":16" }}</code>, {{ x.created_at|date:"j M Y" }}</li>{% endfor %}</ul>{% endif %}
+{% else %}<p>No version registered.</p>{% endif %}
+<h3>Rule catalogue</h3>
+<dl>{% for rid, text in rules.items %}<dt>{{ rid }}</dt><dd>{{ text }}</dd>{% endfor %}</dl>
+{% endblock %}

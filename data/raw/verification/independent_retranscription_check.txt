@@ -1,0 +1,5 @@
+Independent re-transcription check (2026-10-23): a second web-fetch extraction of the Federal Ministry of Education PDFs
+was compared cell-by-cell with the raw CSVs retrieved in the earlier session.
+fme_2015_16_table2_23_oos_by_state.csv vs fme_oosc_2015_16.csv : 380 cells compared, 0 differences
+nemis_2013_16_public_primary_teachers.csv vs fme_ptr_public_primary_2013_16.csv : 570 cells compared, 0 differences
+Note: both extractions pass through the same text-extraction service, so this detects transcription error, not errors present in the source PDF.

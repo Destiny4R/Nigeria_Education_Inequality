@@ -1,0 +1,89 @@
+indicator_code,indicator_name,year,value
+SE.PRM.NENR,"School enrollment, primary (% net)",1999,62.07012
+SE.PRM.NENR,"School enrollment, primary (% net)",2000,65.08852
+SE.PRM.NENR,"School enrollment, primary (% net)",2004,66.39932
+SE.PRM.NENR,"School enrollment, primary (% net)",2005,66.85314
+SE.PRM.NENR,"School enrollment, primary (% net)",2006,67.3432
+SE.PRM.NENR,"School enrollment, primary (% net)",2007,70.31079
+SE.PRM.NENR,"School enrollment, primary (% net)",2008,63.39998
+SE.PRM.NENR,"School enrollment, primary (% net)",2009,64.34126
+SE.PRM.NENR,"School enrollment, primary (% net)",2010,64.13783
+SE.PRM.ENRR,"School enrollment, primary (% gross)",1990,83.1028594970703
+SE.PRM.ENRR,"School enrollment, primary (% gross)",1991,82.3225021362305
+SE.PRM.ENRR,"School enrollment, primary (% gross)",1992,86.7443771362305
+SE.PRM.ENRR,"School enrollment, primary (% gross)",1993,91.2958602905273
+SE.PRM.ENRR,"School enrollment, primary (% gross)",1994,91.5379028320312
+SE.PRM.ENRR,"School enrollment, primary (% gross)",1995,87.4475326538086
+SE.PRM.ENRR,"School enrollment, primary (% gross)",1996,76.7972106933594
+SE.PRM.ENRR,"School enrollment, primary (% gross)",1999,91.5830917358398
+SE.PRM.ENRR,"School enrollment, primary (% gross)",2000,95.5101623535156
+SE.PRM.ENRR,"School enrollment, primary (% gross)",2001,92.52490234375
+SE.PRM.ENRR,"School enrollment, primary (% gross)",2002,93.6976165771484
+SE.PRM.ENRR,"School enrollment, primary (% gross)",2003,94.8095932006836
+SE.PRM.ENRR,"School enrollment, primary (% gross)",2004,95.7809066772461
+SE.PRM.ENRR,"School enrollment, primary (% gross)",2005,96.3063507080078
+SE.PRM.ENRR,"School enrollment, primary (% gross)",2006,96.6624374389648
+SE.PRM.ENRR,"School enrollment, primary (% gross)",2007,88.06884765625
+SE.PRM.ENRR,"School enrollment, primary (% gross)",2008,79.2687530517578
+SE.PRM.ENRR,"School enrollment, primary (% gross)",2009,80.3091735839844
+SE.PRM.ENRR,"School enrollment, primary (% gross)",2010,79.8300399780273
+SE.PRM.ENRR,"School enrollment, primary (% gross)",2011,84.6805572509766
+SE.PRM.ENRR,"School enrollment, primary (% gross)",2012,85.9125900268555
+SE.PRM.ENRR,"School enrollment, primary (% gross)",2013,87.8349702257826
+SE.PRM.ENRR,"School enrollment, primary (% gross)",2014,84.1216580144923
+SE.PRM.ENRR,"School enrollment, primary (% gross)",2015,25.5657563073792
+SE.PRM.ENRR,"School enrollment, primary (% gross)",2016,78.8780517578125
+SE.PRM.ENRR,"School enrollment, primary (% gross)",2018,81.6278513667331
+SE.PRM.ENRR,"School enrollment, primary (% gross)",2020,84.371583976485
+SE.PRM.ENRR,"School enrollment, primary (% gross)",2021,83.8092555956779
+SE.PRM.ENRR,"School enrollment, primary (% gross)",2023,89.5871124267578
+SE.PRM.UNER,"Children out of school, primary",1999,7544191
+SE.PRM.UNER,"Children out of school, primary",2000,7209033
+SE.PRM.UNER,"Children out of school, primary",2004,7903004
+SE.PRM.UNER,"Children out of school, primary",2005,8047765
+SE.PRM.UNER,"Children out of school, primary",2006,8241086
+SE.PRM.UNER,"Children out of school, primary",2007,7904316
+SE.PRM.UNER,"Children out of school, primary",2008,9808950
+SE.PRM.UNER,"Children out of school, primary",2009,9900361
+SE.PRM.UNER,"Children out of school, primary",2010,10293439
+SE.PRM.UNER,"Children out of school, primary",2023,9070702
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",1990,0.78600001335144
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",1991,0.806140005588531
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",1992,0.816770017147064
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",1993,0.804090023040771
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",1994,0.81521999835968
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",1995,0.831070005893707
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",1996,0.85632997751236
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",1999,0.806930005550385
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",2000,0.810350000858307
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",2001,0.826590001583099
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",2002,0.825600028038025
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",2003,0.831870019435883
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",2004,0.837800025939941
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",2005,0.843209981918335
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",2006,0.859790027141571
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",2007,0.882279992103577
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",2008,0.888109982013702
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",2009,0.89630001783371
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",2010,0.908500015735626
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",2011,0.932770013809204
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",2012,0.974160015583038
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",2013,0.974839985370636
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",2014,0.98539000749588
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",2015,0.937149107456207
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",2016,0.942709982395172
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",2017,0.943077504634857
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",2018,0.977930009365082
+SE.ENR.PRIM.FM.ZS,"School enrollment, primary (gross), gender parity index (GPI)",2019,1.00997877120972
+SE.XPD.TOTL.GD.ZS,"Government expenditure on education, total (% of GDP)",2012,0.549233086121929
+SE.XPD.TOTL.GD.ZS,"Government expenditure on education, total (% of GDP)",2013,0.534206768008091
+SE.XPD.TOTL.GD.ZS,"Government expenditure on education, total (% of GDP)",2014,0.470742539133469
+SE.XPD.TOTL.GD.ZS,"Government expenditure on education, total (% of GDP)",2015,0.436954905120644
+SE.XPD.TOTL.GD.ZS,"Government expenditure on education, total (% of GDP)",2016,0.393045646249364
+SE.XPD.TOTL.GD.ZS,"Government expenditure on education, total (% of GDP)",2017,0.396354013591345
+SE.XPD.TOTL.GD.ZS,"Government expenditure on education, total (% of GDP)",2018,0.419998493796127
+SE.XPD.TOTL.GD.ZS,"Government expenditure on education, total (% of GDP)",2019,0.358479005206684
+SE.XPD.TOTL.GD.ZS,"Government expenditure on education, total (% of GDP)",2020,0.35963763718498
+SE.XPD.TOTL.GD.ZS,"Government expenditure on education, total (% of GDP)",2021,0.381919104397325
+SE.XPD.TOTL.GD.ZS,"Government expenditure on education, total (% of GDP)",2022,0.348516707890877
+SE.XPD.TOTL.GD.ZS,"Government expenditure on education, total (% of GDP)",2023,0.319069049792343

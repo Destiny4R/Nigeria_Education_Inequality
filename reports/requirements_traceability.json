@@ -1,0 +1,1362 @@
+{
+ "generated": "2026-10-25T02:01:03+01:00",
+ "tests_loaded": 142,
+ "tests_passed": 142,
+ "counts": {
+  "MET": 126,
+  "MET_LIMITED": 9,
+  "SUPERSEDED": 4,
+  "NOT_VERIFIED": 2,
+  "NOT_MET": 0
+ },
+ "total": 141,
+ "items": [
+  {
+   "id": "A1",
+   "plan_ref": "2.1",
+   "requirement": "Trusted data infrastructure: import, validate, clean, document and version datasets from traceable sources",
+   "status": "MET",
+   "evidence": "6 sources, 10 datasets, 10 versions with SHA-256, 10 quality reports | tests: 3/3 passed",
+   "tests": [
+    "test_import_records_sources_datasets_versions_and_reports",
+    "test_cleaning_is_reproducible",
+    "test_checksums_recorded_match_files"
+   ]
+  },
+  {
+   "id": "A2",
+   "plan_ref": "2.2",
+   "requirement": "Inequality analysis by state, location, gender, wealth and other supported characteristics",
+   "status": "MET",
+   "evidence": "state ranking (37 states), North-South gap, gender gaps, national rural/urban and wealth-quintile gaps, poverty gradient | tests: 2/2 passed",
+   "tests": [
+    "test_inequality_run_persists_results_rows",
+    "test_inequality_filters_change_the_result"
+   ]
+  },
+  {
+   "id": "A3",
+   "plan_ref": "2.3",
+   "requirement": "Explainable causal AI engine: specify relationships, estimate effects, test assumptions, explain results",
+   "status": "MET",
+   "evidence": "graph + assumptions, DoWhy identification and refutations, 4 estimators, SHAP/permutation explanation, narrative explanation | tests: 2/2 passed",
+   "tests": [
+    "test_pipeline_documents_every_required_element",
+    "test_explanation_does_not_overclaim"
+   ]
+  },
+  {
+   "id": "A4",
+   "plan_ref": "2.4",
+   "requirement": "Counterfactual policy simulator comparing policies with a baseline, with uncertainty and subgroup impacts",
+   "status": "MET",
+   "evidence": "3 standard scenarios with headline, inequality change, intervals and 11 subgroup rows | tests: 2/2 passed",
+   "tests": [
+    "test_simulation_run_persists_scenario_and_results",
+    "test_outcome_and_inequality_are_assessed_separately"
+   ]
+  },
+  {
+   "id": "A5",
+   "plan_ref": "2.5",
+   "requirement": "Validated and deployable application: access, automated tests, audit trail, reproducibility, reporting, deployment documentation",
+   "status": "MET",
+   "evidence": "142 automated tests, all passing | User-access requirement replaced by the no-authentication decision (see S1).",
+   "tests": []
+  },
+  {
+   "id": "B1",
+   "plan_ref": "3",
+   "requirement": "Python backend with Django as the main application (no unjustified extra frameworks)",
+   "status": "MET",
+   "evidence": "django 6.1.2 | Single Django project; JavaScript only draws charts.",
+   "tests": []
+  },
+  {
+   "id": "B2",
+   "plan_ref": "3",
+   "requirement": "Django templates, HTML, Bootstrap 5",
+   "status": "MET",
+   "evidence": "Bootstrap 5 CSS/JS vendored (self-hosted)",
+   "tests": []
+  },
+  {
+   "id": "B3",
+   "plan_ref": "3",
+   "requirement": "Plotly interactive visualisations embedded in Django",
+   "status": "MET",
+   "evidence": "plotly 7.1.0 | tests: 1/1 passed",
+   "tests": [
+    "test_static_assets_are_self_hosted"
+   ]
+  },
+  {
+   "id": "B4",
+   "plan_ref": "3/6",
+   "requirement": "MySQL for application records",
+   "status": "NOT_VERIFIED",
+   "evidence": "MySQL configuration, utf8mb4 + strict mode, driver fallback and mysqldump-based backup are implemented | No MySQL server could be installed in this sandbox, so migrations and queries were verified only on SQLite (same ORM). Run `DB_ENGINE=mysql python manage.py migrate && pytest` on the target server (docs/DEPLOYMENT.md section 3).",
+   "tests": []
+  },
+  {
+   "id": "B5",
+   "plan_ref": "3",
+   "requirement": "Pandas, NumPy, PyArrow data processing",
+   "status": "MET",
+   "evidence": "pandas 3.0.5, numpy 2.5.3, pyarrow 26.0.0",
+   "tests": []
+  },
+  {
+   "id": "B6",
+   "plan_ref": "3",
+   "requirement": "SciPy and Statsmodels statistical analysis",
+   "status": "MET",
+   "evidence": "scipy 1.18.1, statsmodels 0.15.0",
+   "tests": []
+  },
+  {
+   "id": "B7",
+   "plan_ref": "3",
+   "requirement": "DoWhy and EconML causal inference",
+   "status": "MET",
+   "evidence": "dowhy 0.14, econml 0.17.0 | tests: 1/1 passed",
+   "tests": [
+    "test_pipeline_documents_every_required_element"
+   ]
+  },
+  {
+   "id": "B8",
+   "plan_ref": "3",
+   "requirement": "Scikit-learn machine learning (plus SHAP for explanation)",
+   "status": "MET",
+   "evidence": "sklearn 1.9.1, shap 0.54.1",
+   "tests": []
+  },
+  {
+   "id": "B9",
+   "plan_ref": "3",
+   "requirement": "Geospatial analysis with GeoJSON and Plotly maps",
+   "status": "MET_LIMITED",
+   "evidence": "GeoJSON outline + state-capital points rendered with Plotly | limitation: State boundary polygons with licence terms were not available from the permitted sources, so the map is a point map over a national outline (stated on the page); GeoPandas is not needed for point data and is not installed.",
+   "tests": []
+  },
+  {
+   "id": "B10",
+   "plan_ref": "3/10.2",
+   "requirement": "Celery and Redis for background processing, if long-running tasks require them",
+   "status": "MET_LIMITED",
+   "evidence": "background execution via a bounded worker thread with status, timeout, retries and duplicate protection | tests: 3/3 passed | limitation: Celery/Redis not used: the plan allows simple processing for a prototype and the longest analysis takes about a minute. A queue should replace the thread worker if many concurrent users are expected.",
+   "tests": [
+    "test_thread_execution_mode_completes",
+    "test_retries_are_bounded",
+    "test_stale_runs_are_reaped_and_late_results_discarded"
+   ]
+  },
+  {
+   "id": "B11",
+   "plan_ref": "3",
+   "requirement": "Automated tests with Pytest and the Django test framework",
+   "status": "MET",
+   "evidence": "8 test modules",
+   "tests": []
+  },
+  {
+   "id": "B12",
+   "plan_ref": "3",
+   "requirement": "Version control with Git",
+   "status": "MET",
+   "evidence": "repository initialised | Repository initialised (branch main); no commit has been made. When ready: git add -A && git commit. .gitignore keeps secrets, restricted data, databases and artefacts out.",
+   "tests": []
+  },
+  {
+   "id": "B13",
+   "plan_ref": "3/13",
+   "requirement": "Deployment with Linux server, Gunicorn, Nginx and HTTPS",
+   "status": "NOT_VERIFIED",
+   "evidence": "gunicorn config, nginx (TLS) config and systemd unit provided | Configuration files are provided and `check --deploy` is clean (see L-series), but no public server exists in this sandbox to demonstrate HTTPS serving.",
+   "tests": []
+  },
+  {
+   "id": "C1",
+   "plan_ref": "4.1",
+   "requirement": "Define population and unit of analysis; do not claim school- or household-level findings without such data",
+   "status": "MET",
+   "evidence": "unit = state; methodology states data are published aggregates, not household or school records",
+   "tests": []
+  },
+  {
+   "id": "C2",
+   "plan_ref": "4.2",
+   "requirement": "One primary outcome and a few secondary outcomes",
+   "status": "MET",
+   "evidence": "primary: primary out-of-school rate 2021 (MICS6); secondary: boys/girls OOS rate; 2015/16 net enrolment retained as context (definitions not comparable)",
+   "tests": []
+  },
+  {
+   "id": "C3",
+   "plan_ref": "4.3",
+   "requirement": "Research questions formulated and answered by the application and report",
+   "status": "MET",
+   "evidence": "tests: 1/1 passed | five questions on the Methodology page, each linked to the page that answers it; answered in the report",
+   "tests": [
+    "test_methodology_page_states_the_five_research_questions"
+   ]
+  },
+  {
+   "id": "D1",
+   "plan_ref": "5.1 / 11.4",
+   "requirement": "Every source records URL, dataset name, year, period, access date, coverage, licence, documentation, limitations, permitted uses",
+   "status": "MET",
+   "evidence": "6 sources checked for url, name, access date, coverage, licence, limitations, permitted uses; none missing | tests: 2/2 passed",
+   "tests": [
+    "test_register_is_complete_and_files_exist",
+    "test_missing_provenance_fields_are_reported"
+   ]
+  },
+  {
+   "id": "D2",
+   "plan_ref": "5.2",
+   "requirement": "Data-readiness gate with statuses Approved / Approved with limitations / Rejected",
+   "status": "MET",
+   "evidence": "{'Rejected': 1, 'Approved with limitations': 8, 'Approved': 1} | tests: 3/3 passed",
+   "tests": [
+    "test_readiness_statuses_and_gate1",
+    "test_readiness_rejects_when_majority_rows_fail",
+    "test_rejected_columns_are_not_in_the_analytic_file"
+   ]
+  },
+  {
+   "id": "D3",
+   "plan_ref": "5.2",
+   "requirement": "Gate 1: no causal estimation without a defensible dataset for the primary outcome",
+   "status": "MET",
+   "evidence": "primary-outcome dataset (MICS6 2021 state OOS) is approved with limitations; causal run refuses unsupported designs | tests: 2/2 passed",
+   "tests": [
+    "test_readiness_statuses_and_gate1",
+    "test_pipeline_refuses_unsupported_designs"
+   ]
+  },
+  {
+   "id": "D4",
+   "plan_ref": "5.3 (1-2)",
+   "requirement": "Original files kept unmodified in a raw directory, with checksums",
+   "status": "MET",
+   "evidence": "10 raw files re-hashed against the recorded SHA-256; all identical | tests: 1/1 passed",
+   "tests": [
+    "test_checksums_recorded_match_files"
+   ]
+  },
+  {
+   "id": "D5",
+   "plan_ref": "5.3 (3)",
+   "requirement": "Validate file formats, column names, data types and source metadata",
+   "status": "MET",
+   "evidence": "schema check per dataset | tests: 2/2 passed",
+   "tests": [
+    "test_loader_rejects_wrong_schema",
+    "test_loader_rejects_unknown_dataset_and_missing_file"
+   ]
+  },
+  {
+   "id": "D6",
+   "plan_ref": "5.3 (4)",
+   "requirement": "Standardise state names, identifiers, years, units",
+   "status": "MET",
+   "evidence": "37 canonical states with codes and zones | tests: 2/2 passed",
+   "tests": [
+    "test_reference_list_is_36_states_plus_fct",
+    "test_canonical_state_aliases"
+   ]
+  },
+  {
+   "id": "D7",
+   "plan_ref": "5.3 (5-6)",
+   "requirement": "Detect duplicates, invalid values, inconsistent definitions, missing data; apply documented cleaning rules",
+   "status": "MET",
+   "evidence": "9 documented rules (R01-R09), 6 cross-table checks, 37 row flags | tests: 2/2 passed",
+   "tests": [
+    "test_duplicate_rows_are_set_to_missing_not_averaged",
+    "test_duplicate_vector_detector"
+   ]
+  },
+  {
+   "id": "D8",
+   "plan_ref": "5.3 (7)",
+   "requirement": "Harmonise indicators only when definitions are comparable",
+   "status": "MET",
+   "evidence": "1 indicator(s) flagged not comparable and not mixed | tests: 1/1 passed",
+   "tests": [
+    "test_national_series_drops_flagged_outlier"
+   ]
+  },
+  {
+   "id": "D9",
+   "plan_ref": "5.3 (8-10)",
+   "requirement": "Save cleaned data separately; data-quality reports; analytical dataset with documented inclusion/exclusion criteria",
+   "status": "MET",
+   "evidence": "analytic n=31 of 37; 6 exclusions each with a reason | tests: 3/3 passed",
+   "tests": [
+    "test_every_excluded_state_has_a_documented_reason",
+    "test_source_to_cleaned_reconciliation",
+    "test_analytic_dataset_structure"
+   ]
+  },
+  {
+   "id": "D10",
+   "plan_ref": "5.3",
+   "requirement": "Recommended project file structure",
+   "status": "MET",
+   "evidence": "recommended structure present",
+   "tests": []
+  },
+  {
+   "id": "D11",
+   "plan_ref": "5.3",
+   "requirement": "Restricted or identifiable records never committed; large raw data stored with checksums",
+   "status": "MET",
+   "evidence": ".gitignore excludes restricted data, databases, .env, artefacts; no individual-level data are held",
+   "tests": []
+  },
+  {
+   "id": "D12",
+   "plan_ref": "5.4",
+   "requirement": "Data dictionary with definition, source and role for each variable; reflects the actual downloads",
+   "status": "MET",
+   "evidence": "dictionary page lists variables, sources, roles and variables the sources do not contain | tests: 1/1 passed",
+   "tests": [
+    "test_dictionary_documents_unavailable_variables"
+   ]
+  },
+  {
+   "id": "E1",
+   "plan_ref": "6.2",
+   "requirement": "Relational entities from the plan",
+   "status": "MET",
+   "evidence": "15/15 planned entities (User, Role, Permission intentionally absent)",
+   "tests": []
+  },
+  {
+   "id": "E2",
+   "plan_ref": "6.2",
+   "requirement": "Primary/foreign keys, uniqueness constraints, timestamps, indexes, deletion policies",
+   "status": "MET",
+   "evidence": "8 unique columns, 3 table constraints, 4 indexes; foreign keys with PROTECT/CASCADE policies; created_at timestamps | tests: 1/1 passed",
+   "tests": [
+    "test_database_forbids_results_on_unsuccessful_run"
+   ]
+  },
+  {
+   "id": "E3",
+   "plan_ref": "6.2",
+   "requirement": "Schema managed with Django migrations",
+   "status": "MET",
+   "evidence": "models and migrations are in sync (makemigrations --check)",
+   "tests": []
+  },
+  {
+   "id": "E4",
+   "plan_ref": "6.2",
+   "requirement": "Large model objects stored as versioned artefacts with checksums; never load untrusted serialised models",
+   "status": "MET",
+   "evidence": "no deserialisation of model files anywhere (results stored as JSON with SHA-256) | tests: 1/1 passed",
+   "tests": [
+    "test_causal_run_persists_model_versions_and_validations"
+   ]
+  },
+  {
+   "id": "E5",
+   "plan_ref": "6.1",
+   "requirement": "Application modules: dashboard, data management, inequality, causal, policy simulation, reports and audit",
+   "status": "MET",
+   "evidence": "all seven module pages return 200 | tests: 1/1 passed",
+   "tests": [
+    "test_every_public_page_opens_anonymously"
+   ]
+  },
+  {
+   "id": "E6",
+   "plan_ref": "6.3 / 12",
+   "requirement": "Roles (administrator, researcher, policymaker, viewer), user accounts and permission enforcement",
+   "status": "SUPERSEDED",
+   "evidence": "django.contrib.auth/admin/sessions are not installed; no login, logout, register, password or admin URLs exist | tests: 2/2 passed | Superseded by the explicit project decision that the system has no authentication of any kind. Protection of the open site relies on read-only public data, CSRF, throttling, input validation and no upload endpoint.",
+   "tests": [
+    "test_no_authentication_machinery_is_installed",
+    "test_no_login_logout_admin_or_account_urls"
+   ]
+  },
+  {
+   "id": "F1",
+   "plan_ref": "7.1",
+   "requirement": "Absolute gaps, relative gaps, disparities, resource distribution, temporal change, Gini where suitable",
+   "status": "MET",
+   "evidence": "absolute and relative gaps, gender gaps, Gini/Theil/CV/P90-P10, resource (teacher) inequality, temporal trends, concentration indices, Lorenz curve | tests: 6/6 passed",
+   "tests": [
+    "test_plan_example_absolute_gap",
+    "test_gini_equality_and_extreme",
+    "test_theil_t_independent",
+    "test_ridit_midpoints_equal_groups",
+    "test_slope_index_exact_for_linear_gradient",
+    "test_concentration_index_matches_covariance_form"
+   ]
+  },
+  {
+   "id": "F2",
+   "plan_ref": "7.1",
+   "requirement": "Every indicator defines denominator, eligible population, weighting, missing-data rule and interpretation",
+   "status": "MET",
+   "evidence": "10 indicators each with denominator, weighting, missing-data rule and interpretation (shown on Methodology page)",
+   "tests": []
+  },
+  {
+   "id": "F3",
+   "plan_ref": "7.1",
+   "requirement": "Gini not applied indiscriminately to categories or non-comparable rates",
+   "status": "MET",
+   "evidence": "Gini restricted to numeric state rates; negative values rejected; methodology states the rule | tests: 2/2 passed",
+   "tests": [
+    "test_negative_values_rejected",
+    "test_gini_matches_mean_absolute_difference_formula"
+   ]
+  },
+  {
+   "id": "F4",
+   "plan_ref": "7.2",
+   "requirement": "Filters for year, state, rural-urban, gender, wealth group, education level (subject to availability)",
+   "status": "MET_LIMITED",
+   "evidence": "filters: region, geopolitical zone, poverty group, state list, education level; year is fixed per source (single survey wave) and gender is shown as paired gaps | tests: 1/1 passed | limitation: Year filter not offered because each outcome is a single survey wave; rural-urban, sex and wealth-quintile comparisons exist only as national MICS6 figures (no state-level breakdown is published in the retrieved tables).",
+   "tests": [
+    "test_inequality_filters_change_the_result"
+   ]
+  },
+  {
+   "id": "F5",
+   "plan_ref": "7.2",
+   "requirement": "Visualisations: trends, group bar charts, maps, distribution plots, ranking tables, intervals",
+   "status": "MET",
+   "evidence": "trend lines, group bars, point map, Lorenz/distribution plot, ranking table, intervals (checked in browser: 7 + 6 charts render without errors)",
+   "tests": []
+  },
+  {
+   "id": "F6",
+   "plan_ref": "7.2",
+   "requirement": "Do not rank states on incomplete or non-comparable data without warnings",
+   "status": "MET",
+   "evidence": "21 states carry visible data-issue flags in the ranking | tests: 2/2 passed",
+   "tests": [
+    "test_small_group_ranking_warns_about_missing_values",
+    "test_state_ranking_excludes_missing_and_warns"
+   ]
+  },
+  {
+   "id": "F7",
+   "plan_ref": "7.2",
+   "requirement": "Functioning dashboard with reproducible calculations and downloadable results",
+   "status": "MET",
+   "evidence": "CSV, Excel, PDF and JSON exports quote run id, configuration hash and data checksum | tests: 2/2 passed",
+   "tests": [
+    "test_inequality_export_is_traceable_csv",
+    "test_all_downloads_are_valid_csv"
+   ]
+  },
+  {
+   "id": "F8",
+   "plan_ref": "7 / 11.4",
+   "requirement": "Inequality results match independently calculated cases",
+   "status": "MET",
+   "evidence": "14/14 headline numbers reproduced by separate code (pairwise Gini, explicit HC3 sandwich, scipy Spearman, scenario arithmetic) | tests: 2/2 passed",
+   "tests": [
+    "test_weighted_gini_equals_gini_of_replicated_units",
+    "test_state_inequality_profile_on_toy_data"
+   ]
+  },
+  {
+   "id": "G1",
+   "plan_ref": "8.1",
+   "requirement": "Each analysis states treatment, outcome, confounders and estimand",
+   "status": "MET",
+   "evidence": "treatment log_pqtr, outcome oos_total_2021, confounders ['pov_215', 'north']; estimand: ATE of a 10% proportional reduction in public pupils-per-qualified-teacher on the state pr... | tests: 2/2 passed",
+   "tests": [
+    "test_validate_inputs_accepts_valid_specification",
+    "test_validate_inputs_rejects_bad_specifications"
+   ]
+  },
+  {
+   "id": "G2",
+   "plan_ref": "8.1",
+   "requirement": "Causal graph with directions; no adjustment for post-treatment variables",
+   "status": "MET",
+   "evidence": "graph with 6 edges plus a threat graph with unobserved U; private-school share and enrolment deliberately not adjusted (mediators/colliders) | tests: 2/2 passed",
+   "tests": [
+    "test_graph_specifications_are_acyclic_and_treatment_precedes_outcome",
+    "test_run_rejects_post_treatment_adjustment"
+   ]
+  },
+  {
+   "id": "G3",
+   "plan_ref": "8.2",
+   "requirement": "Identification strategy chosen from data and assignment mechanism; inapplicable methods documented",
+   "status": "MET",
+   "evidence": "6 methods assessed: 3 applicable, 3 rejected with reasons (DiD, panel fixed effects, IV) | tests: 1/1 passed",
+   "tests": [
+    "test_pipeline_refuses_unsupported_designs"
+   ]
+  },
+  {
+   "id": "G4",
+   "plan_ref": "8.3",
+   "requirement": "Reproducible 10-step modelling workflow",
+   "status": "MET",
+   "evidence": "load approved data -> validate definitions -> graph -> identifiability -> estimators -> intervals -> overlap/balance -> refutation/robustness -> saved config, warnings, versions -> narrative | tests: 2/2 passed",
+   "tests": [
+    "test_pipeline_is_deterministic",
+    "test_results_change_when_data_change"
+   ]
+  },
+  {
+   "id": "G5",
+   "plan_ref": "8.3",
+   "requirement": "Compare multiple defensible methods rather than picking the favourable one",
+   "status": "MET",
+   "evidence": "4 estimators and 8 specifications reported together",
+   "tests": []
+  },
+  {
+   "id": "G6",
+   "plan_ref": "8.3 / 11.3",
+   "requirement": "Refutation checks, overlap/balance diagnostics, sensitivity analysis",
+   "status": "MET",
+   "evidence": "random common cause, placebo treatment, subsets; GPS overlap/balance; omitted-variable robustness value; leave-one-out and leave-one-zone-out | tests: 2/2 passed",
+   "tests": [
+    "test_robustness_value_matches_published_formula",
+    "test_sensitivity_block_is_consistent"
+   ]
+  },
+  {
+   "id": "G7",
+   "plan_ref": "8.4",
+   "requirement": "Explanations at feature, causal and subgroup level; SHAP and importance not presented as causal proof",
+   "status": "MET",
+   "evidence": "SHAP + permutation importance; effect narrative; North/South and poverty-split estimates; explicit caution text | tests: 2/2 passed",
+   "tests": [
+    "test_explanation_does_not_overclaim",
+    "test_predictive_models_are_validated_out_of_sample"
+   ]
+  },
+  {
+   "id": "G8",
+   "plan_ref": "8 / 1",
+   "requirement": "Descriptive, predictive, causal and counterfactual analysis kept separate",
+   "status": "MET",
+   "evidence": "separate engines (src/inequality, src/causal, src/simulation) and separate pages",
+   "tests": []
+  },
+  {
+   "id": "G9",
+   "plan_ref": "8.2",
+   "requirement": "Honest limit on claims when identification is weak",
+   "status": "MET",
+   "evidence": "verdict: Inconclusive: no reliable evidence of a causal effect of PQTR on OOS rates that is distinguishable from zero in these data. | tests: 1/1 passed",
+   "tests": [
+    "test_explanation_does_not_overclaim"
+   ]
+  },
+  {
+   "id": "H1",
+   "plan_ref": "9.1",
+   "requirement": "Scenario inputs: target population, intervention, baseline, intensity, effect model, constraints, horizon, uncertainty, assumptions",
+   "status": "MET",
+   "evidence": "population/coverage, intervention and intensity, baseline = observed data, effect model, implementation range, horizon (not modelled: cross-section), uncertainty draws, assumptions list | tests: 3/3 passed",
+   "tests": [
+    "test_scenario_validation_messages",
+    "test_baseline_equals_observed_data",
+    "test_coverage_limits_effects_to_covered_states"
+   ]
+  },
+  {
+   "id": "H2",
+   "plan_ref": "9.2",
+   "requirement": "Baseline vs counterfactual table: baseline, counterfactual, absolute/relative change, inequality change, interval, subgroups, limitations",
+   "status": "MET",
+   "evidence": "baseline, counterfactual, absolute and relative change, inequality change, interval, subgroup effects, limitations | tests: 2/2 passed",
+   "tests": [
+    "test_direction_and_dose_response",
+    "test_counterfactual_rates_never_negative"
+   ]
+  },
+  {
+   "id": "H3",
+   "plan_ref": "9.3",
+   "requirement": "Assess overall improvement and disparity change separately",
+   "status": "MET",
+   "evidence": "national mean, North-South gap, high/low-poverty gap and Gini each reported with interval | tests: 1/1 passed",
+   "tests": [
+    "test_outcome_and_inequality_are_assessed_separately"
+   ]
+  },
+  {
+   "id": "H4",
+   "plan_ref": "9.3",
+   "requirement": "No claim that a policy is cheapest or best without cost data",
+   "status": "MET",
+   "evidence": "no cost data exist; scenarios never ranked by cost-effectiveness | tests: 1/1 passed",
+   "tests": [
+    "test_no_cost_effectiveness_claim_without_cost_data"
+   ]
+  },
+  {
+   "id": "H5",
+   "plan_ref": "9.4",
+   "requirement": "Uncertainty intervals, sensitivity, unsupported-value checks, out-of-support warnings, separate statistical vs implementation uncertainty",
+   "status": "MET",
+   "evidence": "interval and implementation range reported separately (not combined); extrapolation and excluded-state warnings | tests: 4/4 passed",
+   "tests": [
+    "test_extrapolation_beyond_observed_support_is_flagged",
+    "test_uncertainty_interval_includes_zero_for_current_data",
+    "test_implementation_range_scales_point_estimate_separately",
+    "test_excluded_states_are_reported_not_silently_dropped"
+   ]
+  },
+  {
+   "id": "H6",
+   "plan_ref": "9.4",
+   "requirement": "Scenario comparisons use identical outcome definitions and baselines",
+   "status": "MET",
+   "evidence": "side-by-side comparison page on a common baseline | tests: 1/1 passed",
+   "tests": [
+    "test_compare_scenarios_uses_common_baseline"
+   ]
+  },
+  {
+   "id": "H7",
+   "plan_ref": "9 deliverable",
+   "requirement": "Interactive simulator that saves scenarios, compares outcomes, reports uncertainty, reproduces results",
+   "status": "MET",
+   "evidence": "3 saved scenarios | tests: 3/3 passed",
+   "tests": [
+    "test_simulation_journey_end_to_end",
+    "test_deterministic_and_seed_sensitive",
+    "test_saved_scenario_limit"
+   ]
+  },
+  {
+   "id": "H8",
+   "plan_ref": "17",
+   "requirement": "Two or three supported counterfactual scenarios",
+   "status": "MET",
+   "evidence": "3 preset scenarios (S1 universal cap, S2 20% reduction in the North, S3 targeted cap in high-poverty states)",
+   "tests": []
+  },
+  {
+   "id": "I1",
+   "plan_ref": "10.1",
+   "requirement": "Pages: home, methodology, findings, dashboard, data, inequality, causal, simulation, reports, administration/system pages",
+   "status": "MET",
+   "evidence": "11 pages return 200 to an anonymous visitor | tests: 2/2 passed",
+   "tests": [
+    "test_every_public_page_opens_anonymously",
+    "test_pages_contain_expected_content"
+   ]
+  },
+  {
+   "id": "I2",
+   "plan_ref": "10.1",
+   "requirement": "Authentication pages: login, logout, password reset, access-denied",
+   "status": "SUPERSEDED",
+   "evidence": "all return 404 (do not exist) | tests: 1/1 passed | Superseded: no authentication by project decision.",
+   "tests": [
+    "test_no_login_logout_admin_or_account_urls"
+   ]
+  },
+  {
+   "id": "I3",
+   "plan_ref": "10.1",
+   "requirement": "Data management: sources, datasets, versions, quality reports (and uploads)",
+   "status": "MET_LIMITED",
+   "evidence": "sources, datasets, versions, checksums, readiness, quality reports, downloads | limitation: Browser upload of datasets is intentionally not provided: with no login, a public upload endpoint would let anyone alter the evidence base. New data are imported by the operator command `import_datasets` (docs/DATA_IMPORT_GUIDE.md).",
+   "tests": []
+  },
+  {
+   "id": "I4",
+   "plan_ref": "10.1",
+   "requirement": "Administration: users, permissions, audit logs, system configuration",
+   "status": "MET_LIMITED",
+   "evidence": "public activity (audit) log and system status/configuration page; users and permissions superseded | tests: 2/2 passed | limitation: Users/permissions do not exist (no-authentication decision); audit log and status page replace the administrative views.",
+   "tests": [
+    "test_activity_page_shows_actions_without_personal_data",
+    "test_status_page_and_health"
+   ]
+  },
+  {
+   "id": "I5",
+   "plan_ref": "10.2",
+   "requirement": "Analysis job workflow: validate inputs, create AnalysisRun, execute, record progress/errors/results, view results",
+   "status": "MET",
+   "evidence": "5 runs recorded with status, progress, retries, timings, config hash, data hash, versions | tests: 3/3 passed",
+   "tests": [
+    "test_successful_run_is_complete_and_traceable",
+    "test_only_queued_runs_execute",
+    "test_run_status_endpoint_and_retry"
+   ]
+  },
+  {
+   "id": "I6",
+   "plan_ref": "10.2",
+   "requirement": "Job status, retry rules, timeouts, duplicate-submission protection; failed job never leaves results marked successful",
+   "status": "MET",
+   "evidence": "database CHECK constraint forbids results on unsuccessful runs | tests: 5/5 passed",
+   "tests": [
+    "test_duplicate_submission_returns_existing_run",
+    "test_failed_run_never_carries_results",
+    "test_failed_run_is_not_reused_and_can_be_retried",
+    "test_retries_are_bounded",
+    "test_stale_runs_are_reaped_and_late_results_discarded"
+   ]
+  },
+  {
+   "id": "I7",
+   "plan_ref": "10.3",
+   "requirement": "PDF and Excel reports with question, data provenance, methods, estimates and intervals, validation, assumptions, limitations; traceable to run and data version",
+   "status": "MET",
+   "evidence": "Excel (8 sheets) and PDF (9 KB) contain run id, hashes, versions, estimates, diagnostics, limitations | tests: 4/4 passed",
+   "tests": [
+    "test_export_xlsx_and_pdf_are_traceable",
+    "test_simulation_exports_label_results_as_hypothetical",
+    "test_json_export_contains_hashes_and_versions",
+    "test_summary_pdf"
+   ]
+  },
+  {
+   "id": "J1",
+   "plan_ref": "11.1",
+   "requirement": "Data validation: missingness, duplicates, invalid values, identifiers, denominators, source-to-cleaned reconciliation, inclusion rules, reproducible cleaning",
+   "status": "MET_LIMITED",
+   "evidence": "quality report + independent re-download matches stored raw data in 1,671/1,671 cells | tests: 3/3 passed | limitation: Survey weights/complex designs are not applicable: only published aggregates are used, so design-based intervals are unavailable (stated wherever intervals appear). Both extractions use the same text-extraction service, so errors inside the source PDFs are not detectable.",
+   "tests": [
+    "test_source_to_cleaned_reconciliation",
+    "test_cleaning_is_reproducible",
+    "test_duplicate_rows_are_set_to_missing_not_averaged"
+   ]
+  },
+  {
+   "id": "J2",
+   "plan_ref": "11.2",
+   "requirement": "Automated tests for import, constraints, calculations, causal input validation, simulation, job failures, reports, exports",
+   "status": "MET",
+   "evidence": "142 tests in 8 modules; areas: Dataset import and validation; Database constraints; Inequality calculations; Causal input validation; Simulation calculations; Background job failures/retries; Report generation; Export access | tests: 13/13 passed",
+   "tests": [
+    "test_import_records_sources_datasets_versions_and_reports",
+    "test_loader_rejects_wrong_schema",
+    "test_database_forbids_results_on_unsuccessful_run",
+    "test_gini_equality_and_extreme",
+    "test_theil_t_independent",
+    "test_validate_inputs_rejects_bad_specifications",
+    "test_direction_and_dose_response",
+    "test_noop_scenario_changes_nothing",
+    "test_failed_run_never_carries_results",
+    "test_retries_are_bounded",
+    "test_export_xlsx_and_pdf_are_traceable",
+    "test_all_downloads_are_valid_csv",
+    "test_path_traversal_is_blocked"
+   ]
+  },
+  {
+   "id": "J3",
+   "plan_ref": "11.2",
+   "requirement": "Tests for user registration, authentication, role/permission enforcement",
+   "status": "SUPERSEDED",
+   "evidence": "tests: 2/2 passed | Superseded by the no-authentication decision. Replaced by tests proving that NO authentication machinery exists and that every page and download works anonymously.",
+   "tests": [
+    "test_no_authentication_machinery_is_installed",
+    "test_every_public_page_opens_anonymously"
+   ]
+  },
+  {
+   "id": "J4",
+   "plan_ref": "11.2",
+   "requirement": "Unit, integration and end-to-end tests",
+   "status": "MET",
+   "evidence": "unit tests (metrics, engines), integration tests (services, DB), end-to-end journeys (simulation_journey_end_to_end) and a headless-browser check of all pages | tests: 2/2 passed",
+   "tests": [
+    "test_simulation_journey_end_to_end",
+    "test_successful_run_is_complete_and_traceable"
+   ]
+  },
+  {
+   "id": "J5",
+   "plan_ref": "11.3",
+   "requirement": "Baseline comparison and out-of-sample evaluation",
+   "status": "MET",
+   "evidence": "leave-one-out and leave-zone-out RMSE for mean baseline, region-only, poverty+region, +PQTR and random forest | tests: 1/1 passed",
+   "tests": [
+    "test_predictive_models_are_validated_out_of_sample"
+   ]
+  },
+  {
+   "id": "J6",
+   "plan_ref": "11.3",
+   "requirement": "Causal refutation, sensitivity analysis, subgroup evaluation",
+   "status": "MET",
+   "evidence": "3 refutations, robustness value, 4 subgroup estimates with interaction test",
+   "tests": []
+  },
+  {
+   "id": "J7",
+   "plan_ref": "11.3",
+   "requirement": "Reproducibility testing: same inputs and configuration reproduce the same results",
+   "status": "MET",
+   "evidence": "`manage.py verify_reproducibility` recomputes cleaning + inequality + causal from raw data in a fresh process and compares SHA-256 hashes | tests: 3/3 passed | A genuine defect was found and fixed during this cross-check: the stored causal hash did not reproduce in a fresh process (ordering/last-bit float noise from DoWhy). Fixed and covered by a cross-process regression test.",
+   "tests": [
+    "test_stored_result_reproduces_from_its_configuration",
+    "test_causal_result_hash_is_identical_across_processes",
+    "test_round_floats_removes_last_bit_noise_but_keeps_real_differences"
+   ]
+  },
+  {
+   "id": "J8",
+   "plan_ref": "11.3",
+   "requirement": "Report supporting evidence and unresolved threats to validity (passing a refutation test is not proof)",
+   "status": "MET",
+   "evidence": "stated on Methodology and Causal pages and in exports",
+   "tests": []
+  },
+  {
+   "id": "K1",
+   "plan_ref": "11.4",
+   "requirement": "Acceptance criterion - Data provenance: documented origin, version, access conditions, limitations",
+   "status": "MET",
+   "evidence": "6/6 sources | tests: 1/1 passed",
+   "tests": [
+    "test_register_is_complete_and_files_exist"
+   ]
+  },
+  {
+   "id": "K2",
+   "plan_ref": "11.4",
+   "requirement": "Acceptance criterion - Data processing: cleaning reproducible and quality checks pass",
+   "status": "MET",
+   "evidence": "analytic checksum identical before/after full re-clean | tests: 1/1 passed",
+   "tests": [
+    "test_cleaning_is_reproducible"
+   ]
+  },
+  {
+   "id": "K3",
+   "plan_ref": "11.4",
+   "requirement": "Acceptance criterion - Inequality calculations: match independently calculated test cases",
+   "status": "MET",
+   "evidence": "14/14 headline numbers reproduced by separate code (pairwise Gini, explicit HC3 sandwich, scipy Spearman, scenario arithmetic) | tests: 1/1 passed",
+   "tests": [
+    "test_state_inequality_profile_on_toy_data"
+   ]
+  },
+  {
+   "id": "K4",
+   "plan_ref": "11.4",
+   "requirement": "Acceptance criterion - Causal estimation: treatment, outcome, confounders, assumptions and estimand documented",
+   "status": "MET",
+   "evidence": "assumptions A1-A7 documented | tests: 1/1 passed",
+   "tests": [
+    "test_pipeline_documents_every_required_element"
+   ]
+  },
+  {
+   "id": "K5",
+   "plan_ref": "11.4",
+   "requirement": "Acceptance criterion - Uncertainty: uncertainty estimates and diagnostics available",
+   "status": "MET",
+   "evidence": "intervals for every estimator; overlap/balance; refutations | tests: 1/1 passed",
+   "tests": [
+    "test_confidence_interval_coverage"
+   ]
+  },
+  {
+   "id": "K6",
+   "plan_ref": "11.4",
+   "requirement": "Acceptance criterion - Policy simulation: baseline/intervention use consistent definitions; assumptions recorded",
+   "status": "MET",
+   "evidence": "assumptions saved with each run | tests: 1/1 passed",
+   "tests": [
+    "test_compare_scenarios_uses_common_baseline"
+   ]
+  },
+  {
+   "id": "K7",
+   "plan_ref": "11.4",
+   "requirement": "Acceptance criterion - Software security: access-control tests pass",
+   "status": "MET",
+   "evidence": "open-access safeguards tested (headers, CSRF, methods, traversal, escaping, injection, throttling) | tests: 3/3 passed",
+   "tests": [
+    "test_security_headers_on_every_response",
+    "test_csrf_protection_on_state_changing_endpoints",
+    "test_throttling_returns_429"
+   ]
+  },
+  {
+   "id": "K8",
+   "plan_ref": "11.4",
+   "requirement": "Acceptance criterion - Reproducibility: documented procedure reproduces key outputs",
+   "status": "MET",
+   "evidence": "verify_reproducibility command + docs | tests: 1/1 passed",
+   "tests": [
+    "test_causal_result_hash_is_identical_across_processes"
+   ]
+  },
+  {
+   "id": "K9",
+   "plan_ref": "11.4",
+   "requirement": "Acceptance criterion - Reporting: published figures and tables trace back to the analysis run",
+   "status": "MET",
+   "evidence": "exports quote run id, configuration, data and results hashes | tests: 1/1 passed",
+   "tests": [
+    "test_export_xlsx_and_pdf_are_traceable"
+   ]
+  },
+  {
+   "id": "L1",
+   "plan_ref": "12/13.2(7)",
+   "requirement": "HTTPS and secure cookies; Django deployment security checks pass",
+   "status": "MET",
+   "evidence": "manage.py check --deploy (debug off, HTTPS on): no errors; warnings: security.W021 (W021 = HSTS preload, a deliberate irreversible opt-in left to the domain owner) | tests: 1/1 passed",
+   "tests": [
+    "test_deployment_security_check_is_clean"
+   ]
+  },
+  {
+   "id": "L2",
+   "plan_ref": "12",
+   "requirement": "CSRF, XSS and SQL-injection protection; input validation",
+   "status": "MET",
+   "evidence": "CSRF middleware, auto-escaping templates, ORM-only queries, whitelisted configuration | tests: 5/5 passed",
+   "tests": [
+    "test_csrf_protection_on_state_changing_endpoints",
+    "test_untrusted_input_is_escaped",
+    "test_sql_injection_and_garbage_filters_are_rejected_gracefully",
+    "test_http_methods_are_restricted",
+    "test_path_traversal_is_blocked"
+   ]
+  },
+  {
+   "id": "L3",
+   "plan_ref": "12",
+   "requirement": "Environment-based secret management; no secrets committed",
+   "status": "MET",
+   "evidence": "secrets read from environment; .env ignored; production refuses to start without a secret key | tests: 1/1 passed",
+   "tests": [
+    "test_production_refuses_to_start_without_secret_key"
+   ]
+  },
+  {
+   "id": "L4",
+   "plan_ref": "12",
+   "requirement": "Audit logging for sensitive operations without personal data",
+   "status": "MET",
+   "evidence": "6 entries; client address stored only as a salted 16-character hash | tests: 3/3 passed",
+   "tests": [
+    "test_audit_log_stores_only_a_salted_hash_of_the_address",
+    "test_run_submissions_are_audited",
+    "test_audit_never_breaks_a_request"
+   ]
+  },
+  {
+   "id": "L5",
+   "plan_ref": "12",
+   "requirement": "Restricted access to raw/identifiable data; data minimisation; small-group suppression",
+   "status": "MET",
+   "evidence": "no identifiable or household/learner-level records are held or needed; the smallest unit is a state; raw files are not web-served (only cleaned CSV downloads) | tests: 2/2 passed | Small-group suppression not required because no group smaller than a state is published.",
+   "tests": [
+    "test_all_downloads_are_valid_csv",
+    "test_path_traversal_is_blocked"
+   ]
+  },
+  {
+   "id": "L6",
+   "plan_ref": "12 / 13",
+   "requirement": "Secure backups and tested restoration",
+   "status": "MET",
+   "evidence": "backup of 2 items restored and verified (exit 0): Restored and verified: 2 files checksummed, 15 tables compared | Backup then restore into a scratch directory; every SHA-256 in the manifest and the table row counts verified.",
+   "tests": []
+  },
+  {
+   "id": "L7",
+   "plan_ref": "12",
+   "requirement": "Throttling to protect expensive endpoints on an open site",
+   "status": "MET",
+   "evidence": "30 runs/hour per client; saved-scenario cap 500 | tests: 3/3 passed",
+   "tests": [
+    "test_throttle_limits_per_client",
+    "test_throttling_returns_429",
+    "test_saved_scenario_limit"
+   ]
+  },
+  {
+   "id": "L8",
+   "plan_ref": "12",
+   "requirement": "Dependency updates, security testing and retention/deletion procedures",
+   "status": "MET",
+   "evidence": "pinned requirements; retention/deletion and dependency-update procedure documented in docs/DEPLOYMENT.md",
+   "tests": []
+  },
+  {
+   "id": "L9",
+   "plan_ref": "12",
+   "requirement": "Review of Nigerian data-protection requirements, research ethics and dataset permissions; fairness of recommendations",
+   "status": "MET_LIMITED",
+   "evidence": "discussed in the research report (Nigeria Data Protection Act 2023; licences; regional fairness) | limitation: Legal/ethics review is desk-based only; no formal ethics-committee or legal sign-off exists. Several source licences are 'not stated', so redistribution of raw tables should be confirmed with the publishers.",
+   "tests": []
+  },
+  {
+   "id": "M1",
+   "plan_ref": "13.2(1)",
+   "requirement": "Separate development, testing and production configurations",
+   "status": "MET",
+   "evidence": "environment-driven DEBUG/TESTING/production modes",
+   "tests": []
+  },
+  {
+   "id": "M2",
+   "plan_ref": "13.2(2)",
+   "requirement": "Pin and document Python package versions",
+   "status": "MET",
+   "evidence": "requirements.txt pinned to tested versions",
+   "tests": []
+  },
+  {
+   "id": "M3",
+   "plan_ref": "13.2(3)",
+   "requirement": "Configure environment variables and production database credentials",
+   "status": "MET",
+   "evidence": ".env.example documents every variable",
+   "tests": []
+  },
+  {
+   "id": "M4",
+   "plan_ref": "13.2(4)",
+   "requirement": "Apply database migrations",
+   "status": "MET",
+   "evidence": "migrations provided",
+   "tests": []
+  },
+  {
+   "id": "M5",
+   "plan_ref": "13.2(5)",
+   "requirement": "Configure static files and HTTPS",
+   "status": "MET",
+   "evidence": "WhiteNoise static serving; nginx TLS config",
+   "tests": []
+  },
+  {
+   "id": "M6",
+   "plan_ref": "13.2(6)",
+   "requirement": "Disable Django debug mode in production",
+   "status": "MET",
+   "evidence": "DEBUG defaults to off",
+   "tests": []
+  },
+  {
+   "id": "M7",
+   "plan_ref": "13.2(7)",
+   "requirement": "Run Django's deployment security checks",
+   "status": "MET",
+   "evidence": "manage.py check --deploy (debug off, HTTPS on): no errors; warnings: security.W021 (W021 = HSTS preload, a deliberate irreversible opt-in left to the domain owner)",
+   "tests": []
+  },
+  {
+   "id": "M8",
+   "plan_ref": "13.2(8)",
+   "requirement": "Process supervision and background workers",
+   "status": "MET",
+   "evidence": "systemd unit + gunicorn config",
+   "tests": []
+  },
+  {
+   "id": "M9",
+   "plan_ref": "13.2(9)",
+   "requirement": "Application, worker and database logging",
+   "status": "MET",
+   "evidence": "console/journald logging configured",
+   "tests": []
+  },
+  {
+   "id": "M10",
+   "plan_ref": "13.2(10)",
+   "requirement": "Configure backups, monitoring and error alerts",
+   "status": "MET",
+   "evidence": "backup script and /healthz endpoint for monitoring",
+   "tests": []
+  },
+  {
+   "id": "M11",
+   "plan_ref": "13.2(11)",
+   "requirement": "Test restoring the database and analytical artefacts",
+   "status": "MET",
+   "evidence": "backup of 2 items restored and verified (exit 0): Restored and verified: 2 files checksummed, 15 tables compared",
+   "tests": []
+  },
+  {
+   "id": "M12",
+   "plan_ref": "13.2(12)",
+   "requirement": "Document upgrades, rollback and incident response",
+   "status": "MET",
+   "evidence": "documented in docs/DEPLOYMENT.md",
+   "tests": []
+  },
+  {
+   "id": "M13",
+   "plan_ref": "13.2 / 13.1",
+   "requirement": "Deployment architecture (Nginx + HTTPS -> Gunicorn/Django -> database + worker/storage) documented and capacity noted",
+   "status": "MET",
+   "evidence": "diagram, sizing note (causal run needs ~1-2 GB RAM and about a minute of CPU) in docs/DEPLOYMENT.md",
+   "tests": []
+  },
+  {
+   "id": "N1",
+   "plan_ref": "14",
+   "requirement": "Source code: Django app, configuration templates, migrations",
+   "status": "MET",
+   "evidence": "present: portal, eduineq, portal/migrations/0001_initial.py, .env.example",
+   "tests": []
+  },
+  {
+   "id": "N2",
+   "plan_ref": "14",
+   "requirement": "Data package: raw data, cleaned data, data dictionary, source register",
+   "status": "MET",
+   "evidence": "present: data/raw, data/processed/state_analytic.parquet, config/source_register.json, docs/DATA_DICTIONARY.md",
+   "tests": []
+  },
+  {
+   "id": "N3",
+   "plan_ref": "14",
+   "requirement": "Analysis pipeline: reproducible scripts for cleaning and inequality measurement",
+   "status": "MET",
+   "evidence": "present: src/cleaning/pipeline.py, src/inequality/metrics.py, notebooks/01_reproduce_key_results.ipynb",
+   "tests": []
+  },
+  {
+   "id": "N4",
+   "plan_ref": "14",
+   "requirement": "Causal AI package: graphs, estimator configurations, diagnostics",
+   "status": "MET",
+   "evidence": "present: src/causal/engine.py, artefacts",
+   "tests": []
+  },
+  {
+   "id": "N5",
+   "plan_ref": "14",
+   "requirement": "Simulation module: baselines, scenarios, effects, uncertainty",
+   "status": "MET",
+   "evidence": "present: src/simulation/engine.py",
+   "tests": []
+  },
+  {
+   "id": "N6",
+   "plan_ref": "14",
+   "requirement": "Test suite: unit, integration, security, analytical validation",
+   "status": "MET",
+   "evidence": "present: tests/test_inequality_metrics.py, tests/test_causal.py, tests/test_simulation.py, tests/test_views.py, src/validation/independent_check.py",
+   "tests": []
+  },
+  {
+   "id": "N7",
+   "plan_ref": "14",
+   "requirement": "Research report: questions, literature review, methodology, findings, validation, discussion, limitations, references",
+   "status": "MET",
+   "evidence": "present: reports/research_report.docx, reports/research_report.pdf",
+   "tests": []
+  },
+  {
+   "id": "N8",
+   "plan_ref": "14",
+   "requirement": "User documentation: installation, administrator, data-import guides and user manual",
+   "status": "MET",
+   "evidence": "present: README.md, docs/INSTALLATION.md, docs/ADMIN_GUIDE.md, docs/DATA_IMPORT_GUIDE.md, docs/USER_MANUAL.md",
+   "tests": []
+  },
+  {
+   "id": "N9",
+   "plan_ref": "14",
+   "requirement": "Deployment package: production configuration, backup/restore instructions, operational checklist",
+   "status": "MET",
+   "evidence": "present: docs/DEPLOYMENT.md, deploy/nginx.conf, deploy/gunicorn.conf.py, deploy/eduineq.service, scripts/backup.py, scripts/restore.py",
+   "tests": []
+  },
+  {
+   "id": "N10",
+   "plan_ref": "14",
+   "requirement": "Report distinguishes findings from actual data from hypothetical simulation examples; accounts for limitations and inconclusive analyses",
+   "status": "MET",
+   "evidence": "simulation results labelled hypothetical in the app and exports; the primary causal result is reported as inconclusive | tests: 1/1 passed",
+   "tests": [
+    "test_simulation_exports_label_results_as_hypothetical"
+   ]
+  },
+  {
+   "id": "N11",
+   "plan_ref": "15",
+   "requirement": "Eight-week implementation schedule",
+   "status": "MET_LIMITED",
+   "evidence": "Not a deliverable of the software; the work was delivered in one engagement, and the sequence of the plan (data gate -> inequality -> causal -> simulation -> web -> validation) was followed. Data feasibility, the critical dependency, drove the choice of the 2021 outcome and the exclusion of the 2015/16 net-enrolment outcome as the causal outcome.",
+   "tests": []
+  },
+  {
+   "id": "N12",
+   "plan_ref": "16",
+   "requirement": "Major risks identified with mitigations",
+   "status": "MET",
+   "evidence": "risk register with evidence of mitigation in the report",
+   "tests": []
+  },
+  {
+   "id": "P1",
+   "plan_ref": "17",
+   "requirement": "Minimum viable research system: one primary outcome, documented dataset, reproducible inequality calculations, a defensible causal estimand, validation, 2-3 scenarios, working web app",
+   "status": "MET",
+   "evidence": "all six elements delivered (see A-K series)",
+   "tests": []
+  },
+  {
+   "id": "Q1",
+   "plan_ref": "18",
+   "requirement": "Checklist: research questions and primary outcome defined",
+   "status": "MET",
+   "evidence": "see C2, C3",
+   "tests": []
+  },
+  {
+   "id": "Q2",
+   "plan_ref": "18",
+   "requirement": "Checklist: sources, licences, provenance documented",
+   "status": "MET",
+   "evidence": "6 sources checked for url, name, access date, coverage, licence, limitations, permitted uses; none missing",
+   "tests": []
+  },
+  {
+   "id": "Q3",
+   "plan_ref": "18",
+   "requirement": "Checklist: data quality and coverage assessed",
+   "status": "MET",
+   "evidence": "10 dataset assessments",
+   "tests": []
+  },
+  {
+   "id": "Q4",
+   "plan_ref": "18",
+   "requirement": "Checklist: data dictionary and reproducible cleaning pipeline",
+   "status": "MET",
+   "evidence": "dictionary page + `verify_reproducibility`",
+   "tests": []
+  },
+  {
+   "id": "Q5",
+   "plan_ref": "18",
+   "requirement": "Checklist: inequality metrics independently checked",
+   "status": "MET",
+   "evidence": "14/14 headline numbers reproduced by separate code (pairwise Gini, explicit HC3 sandwich, scipy Spearman, scenario arithmetic)",
+   "tests": []
+  },
+  {
+   "id": "Q6",
+   "plan_ref": "18",
+   "requirement": "Checklist: causal graph and identification assumptions documented",
+   "status": "MET",
+   "evidence": "7 assumptions, 2 graphs",
+   "tests": []
+  },
+  {
+   "id": "Q7",
+   "plan_ref": "18",
+   "requirement": "Checklist: causal estimates and uncertainty reported",
+   "status": "MET",
+   "evidence": "4 estimators with intervals",
+   "tests": []
+  },
+  {
+   "id": "Q8",
+   "plan_ref": "18",
+   "requirement": "Checklist: robustness and sensitivity analyses completed",
+   "status": "MET",
+   "evidence": "8 specifications, leave-one-out/zone-out, permutation test, fractional logit, robustness value",
+   "tests": []
+  },
+  {
+   "id": "Q9",
+   "plan_ref": "18",
+   "requirement": "Checklist: policy simulations compare baseline and intervention",
+   "status": "MET",
+   "evidence": "3 scenarios",
+   "tests": []
+  },
+  {
+   "id": "Q10",
+   "plan_ref": "18",
+   "requirement": "Checklist: Django and MySQL integration completed",
+   "status": "MET_LIMITED",
+   "evidence": "Django integration complete and tested; MySQL configured | Django integration complete and tested on SQLite; MySQL configuration implemented but not run against a live MySQL server here (see B4).",
+   "tests": []
+  },
+  {
+   "id": "Q11",
+   "plan_ref": "18",
+   "requirement": "Checklist: authentication and role permissions tested",
+   "status": "SUPERSEDED",
+   "evidence": "Superseded by the no-authentication decision (see E6).",
+   "tests": []
+  },
+  {
+   "id": "Q12",
+   "plan_ref": "18",
+   "requirement": "Checklist: dashboards, filters and reports working",
+   "status": "MET",
+   "evidence": "11 pages return 200 to an anonymous visitor",
+   "tests": []
+  },
+  {
+   "id": "Q13",
+   "plan_ref": "18",
+   "requirement": "Checklist: analysis jobs and error handling tested",
+   "status": "MET",
+   "evidence": "see I5, I6",
+   "tests": []
+  },
+  {
+   "id": "Q14",
+   "plan_ref": "18",
+   "requirement": "Checklist: audit logs and data-access safeguards implemented",
+   "status": "MET",
+   "evidence": "audit log + safeguards (L-series)",
+   "tests": []
+  },
+  {
+   "id": "Q15",
+   "plan_ref": "18",
+   "requirement": "Checklist: automated and end-to-end tests passed",
+   "status": "MET",
+   "evidence": "142 tests, 142 passed",
+   "tests": []
+  },
+  {
+   "id": "Q16",
+   "plan_ref": "18",
+   "requirement": "Checklist: key results reproduced from documented inputs",
+   "status": "MET",
+   "evidence": "see J7 and F8",
+   "tests": []
+  },
+  {
+   "id": "Q17",
+   "plan_ref": "18",
+   "requirement": "Checklist: deployment and backup restoration tested",
+   "status": "MET",
+   "evidence": "backup of 2 items restored and verified (exit 0): Restored and verified: 2 files checksummed, 15 tables compared",
+   "tests": []
+  },
+  {
+   "id": "Q18",
+   "plan_ref": "18",
+   "requirement": "Checklist: research report and user documentation completed",
+   "status": "MET",
+   "evidence": "report and four guides present",
+   "tests": []
+  }
+ ]
+}

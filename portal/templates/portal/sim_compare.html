@@ -1,0 +1,22 @@
+{% extends "portal/base.html" %}
+{% block title %}Compare scenarios{% endblock %}
+{% block content %}
+<p><a href="{% url 'simulate' %}">&larr; Policy simulator</a></p>
+<h1>Compare scenarios</h1>
+<p class="lead-muted">All scenarios use the same outcome definition and baseline (observed 2021 out-of-school rates). Comparing them says nothing about cost-effectiveness.</p>
+{% if table %}
+<div class="table-wrap"><table class="table table-sm table-striped"><caption class="visually-hidden">Scenario comparison</caption>
+<thead><tr><th scope="col">Scenario</th><th scope="col" class="num">States changed</th><th scope="col" class="num">Baseline OOS</th><th scope="col" class="num">Scenario OOS</th><th scope="col" class="num">Change (pp)</th><th scope="col" class="num">95% interval</th><th scope="col" class="num">North-South gap change</th><th scope="col" class="num">Gap interval</th><th scope="col" class="num">Extra qualified teachers</th></tr></thead>
+<tbody>{% for t in table %}<tr><th scope="row">{{ t.scenario }}</th><td class="num">{{ t.states_changed }}</td><td class="num">{{ t.baseline_oos|floatformat:2 }}</td><td class="num">{{ t.counterfactual_oos|floatformat:2 }}</td><td class="num">{{ t.change_pp|floatformat:2 }}</td><td class="num">{{ t.stat_ci_low|floatformat:2 }} to {{ t.stat_ci_high|floatformat:2 }}</td><td class="num">{{ t.north_south_gap_change_pp|floatformat:2 }}</td><td class="num">{{ t.ns_gap_ci_low|floatformat:2 }} to {{ t.ns_gap_ci_high|floatformat:2 }}</td><td class="num">{{ t.extra_qualified_teachers|floatformat:0 }}</td></tr>{% endfor %}</tbody></table></div>
+{% if chart %}{% include "portal/_chart.html" with fid="fig-compare" fig=chart label="Scenario comparison chart" %}{% endif %}
+<p>{% for r in runs %}<a href="{% url 'run_detail' r.public_id %}">{{ r.label|default:"Simulation" }}</a>{% if not forloop.last %} · {% endif %}{% endfor %}</p>
+{% else %}<div class="caveat"><strong>Nothing to compare yet</strong>Run the standard analyses to create the preset scenarios.</div>{% endif %}
+
+{% if candidates %}
+<h2>Choose scenarios (2 to 4)</h2>
+<form method="get" action="{% url 'simulate_compare' %}" class="panel bsform">
+  {% for c in candidates %}<div class="field"><label><input type="checkbox" name="id" value="{{ c.public_id }}"> {{ c.label|default:"Simulation" }} <span class="text-muted small">{{ c.created_at|date:"j M Y H:i" }}</span></label></div>{% endfor %}
+  <button class="btn btn-primary" type="submit">Compare selected</button>
+</form>{% endif %}
+{% endblock %}
+{% block scripts %}{% if chart %}{% include "portal/_chart_scripts.html" %}{% endif %}{% endblock %}

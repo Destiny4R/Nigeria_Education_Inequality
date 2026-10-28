@@ -1,0 +1,6 @@
+{% extends "portal/base.html" %}
+{% block title %}Server error{% endblock %}
+{% block content %}
+<h1>Something went wrong</h1>
+<p>An unexpected error occurred. It has been logged. Please try again, or return to the <a href="{% url 'home' %}">home page</a>.</p>
+{% endblock %}

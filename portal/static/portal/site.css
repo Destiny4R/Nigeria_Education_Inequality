@@ -1,0 +1,56 @@
+:root{
+  --bg:#f8fafc; --surface:#ffffff; --text:#1f2937; --muted:#4b5563; --border:#d1d5db; --brand:#0b5a8f; --brand-contrast:#ffffff;
+  --link:#0b5a8f; --caveat-bg:#fff7e6; --caveat-border:#b45309; --caveat-text:#5b3a06; --ok-bg:#dcfce7; --ok-text:#14532d;
+  --lim-bg:#fef3c7; --lim-text:#78350f; --bad-bg:#fee2e2; --bad-text:#7f1d1d; --info-bg:#e0f2fe; --info-text:#0c4a6e; --code-bg:#f1f5f9;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0f172a; --surface:#1e293b; --text:#e5e7eb; --muted:#cbd5e1; --border:#475569; --brand:#38bdf8; --brand-contrast:#0f172a;
+    --link:#7dd3fc; --caveat-bg:#3b2a0b; --caveat-border:#f59e0b; --caveat-text:#fde68a; --ok-bg:#14532d; --ok-text:#dcfce7;
+    --lim-bg:#78350f; --lim-text:#fef3c7; --bad-bg:#7f1d1d; --bad-text:#fee2e2; --info-bg:#0c4a6e; --info-text:#e0f2fe; --code-bg:#0b1220;
+  }
+}
+html{color-scheme:light dark}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55}
+a{color:var(--link)}
+.skip-link{position:absolute;left:-999px;top:0;background:var(--brand);color:var(--brand-contrast);padding:.5rem 1rem;z-index:2000}
+.skip-link:focus{left:0}
+.site-nav{background:var(--surface);border-bottom:1px solid var(--border)}
+.site-nav .navbar-brand{font-weight:700;color:var(--text)}
+.site-nav .nav-link{color:var(--muted)}
+.site-nav .nav-link.active{color:var(--text);font-weight:600;border-bottom:2px solid var(--brand)}
+.card,.panel{background:var(--surface);border:1px solid var(--border);color:var(--text)}
+.panel{border-radius:.5rem;padding:1rem 1.25rem;margin-bottom:1.25rem}
+h1{font-size:1.9rem;font-weight:700} h2{font-size:1.4rem;margin-top:2rem} h3{font-size:1.15rem;margin-top:1.25rem}
+.lead-muted{color:var(--muted);font-size:1.1rem}
+.table{--bs-table-bg:var(--surface);--bs-table-color:var(--text);--bs-table-border-color:var(--border);--bs-table-striped-bg:var(--code-bg);--bs-table-striped-color:var(--text)}
+.table th{font-weight:600}
+.table th.num,.table td.num{white-space:nowrap}
+.table th[scope=row]{min-width:9rem}
+.table-wrap{overflow-x:auto}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+code,.mono{background:var(--code-bg);padding:.05rem .3rem;border-radius:.25rem;font-size:.88em;word-break:break-all}
+.caveat{background:var(--caveat-bg);border-left:5px solid var(--caveat-border);color:var(--caveat-text);padding:.75rem 1rem;border-radius:.25rem;margin:1rem 0}
+.caveat strong:first-child{display:block;margin-bottom:.15rem}
+.note{background:var(--info-bg);color:var(--info-text);padding:.6rem .9rem;border-radius:.25rem;margin:.75rem 0;font-size:.95rem}
+.badge-status{display:inline-block;padding:.15rem .55rem;border-radius:1rem;font-size:.8rem;font-weight:600;white-space:nowrap}
+.s-approved,.s-succeeded{background:var(--ok-bg);color:var(--ok-text)}
+.s-approved-with-limitations,.s-running,.s-queued{background:var(--lim-bg);color:var(--lim-text)}
+.s-rejected,.s-failed{background:var(--bad-bg);color:var(--bad-text)}
+.stat{font-size:1.9rem;font-weight:700;line-height:1.1}
+.stat-label{color:var(--muted);font-size:.85rem}
+.plotly-chart{width:100%;min-height:300px}
+.footer{border-top:1px solid var(--border);color:var(--muted);font-size:.88rem;margin-top:3rem;padding:1.25rem 0}
+.form-control,.form-select{background:var(--surface);color:var(--text);border-color:var(--border)}
+.form-text,.text-muted{color:var(--muted)!important}
+.btn-primary{--bs-btn-bg:var(--brand);--bs-btn-border-color:var(--brand);--bs-btn-color:var(--brand-contrast);--bs-btn-hover-bg:var(--brand);--bs-btn-hover-color:var(--brand-contrast);--bs-btn-hover-border-color:var(--brand)}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.interval{color:var(--muted);font-size:.9em}
+details>summary{cursor:pointer;font-weight:600}
+.bsform select,.bsform textarea,.bsform input[type=text],.bsform input[type=number]{display:block;width:100%;padding:.4rem .6rem;border:1px solid var(--border);border-radius:.375rem;background:var(--surface);color:var(--text)}
+.bsform select[multiple]{min-height:9rem}
+.bsform label{font-weight:600;margin-bottom:.2rem}
+.bsform .field{margin-bottom:.9rem}
+.bsform .errorlist{list-style:none;padding:0;margin:.25rem 0 0;color:var(--bad-text);background:var(--bad-bg);border-radius:.25rem;padding:.25rem .5rem;font-size:.9rem}
+.bsform .helptext{color:var(--muted);font-size:.85rem;display:block;margin-top:.2rem}
+.interval-bar{font-variant-numeric:tabular-nums}

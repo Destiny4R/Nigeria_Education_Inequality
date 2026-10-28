@@ -1,0 +1,23 @@
+[Unit]
+Description=Educational Inequality in Nigeria - Django/gunicorn
+After=network.target mysql.service
+Wants=mysql.service
+
+[Service]
+User=eduineq
+Group=eduineq
+WorkingDirectory=/srv/eduineq/educational-inequality-nigeria
+EnvironmentFile=/etc/eduineq/eduineq.env
+RuntimeDirectory=eduineq
+ExecStart=/srv/eduineq/venv/bin/gunicorn -c deploy/gunicorn.conf.py eduineq.wsgi:application
+Restart=on-failure
+RestartSec=5
+# hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/srv/eduineq/educational-inequality-nigeria/artefacts /srv/eduineq/educational-inequality-nigeria/logs /srv/eduineq/educational-inequality-nigeria/data/interim /srv/eduineq/educational-inequality-nigeria/data/processed /run/eduineq
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

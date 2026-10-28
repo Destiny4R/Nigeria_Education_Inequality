@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.env
+db.sqlite3
+staticfiles/
+logs/*
+!logs/.gitkeep
+artefacts/
+backups/
+# restricted or identifiable survey records must never be committed (plan 5.3)
+data/external_restricted/*
+!data/external_restricted/.gitkeep

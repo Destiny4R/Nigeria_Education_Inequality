@@ -1,0 +1,37 @@
+{% extends "portal/base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+<p class="lead-muted">{{ r.indicator.label }}. Standard analysis <a href="{% url 'run_detail' run.public_id %}">run {{ run.public_id|stringformat:"s"|slice:":8" }}</a>, {{ run.finished_at|date:"j M Y" }}.</p>
+
+<div class="row g-3 mb-3">
+  <div class="col-6 col-lg-3"><div class="panel h-100"><div class="stat">{{ r.profile.weighted_mean|floatformat:1 }}%</div><div class="stat-label">weighted mean across {{ r.profile.n_states }} states</div></div></div>
+  <div class="col-6 col-lg-3"><div class="panel h-100"><div class="stat">{{ r.profile.max.value|floatformat:0 }}%</div><div class="stat-label">highest: {{ r.profile.max.state }} (lowest {{ r.profile.min.value|floatformat:0 }}%, {{ r.profile.min.state }})</div></div></div>
+  <div class="col-6 col-lg-3"><div class="panel h-100"><div class="stat">{{ r.profile.gini|floatformat:2 }}</div><div class="stat-label">Gini across states (Theil {{ r.profile.theil_t|floatformat:2 }})</div></div></div>
+  <div class="col-6 col-lg-3"><div class="panel h-100"><div class="stat">{{ r.regional_gap.gap|floatformat:1 }} pp</div><div class="stat-label">North minus South gap<br><span class="interval">interval {{ r.regional_gap.ci_low|floatformat:1 }} to {{ r.regional_gap.ci_high|floatformat:1 }}</span></div></div></div>
+</div>
+{% if r.warnings %}<div class="caveat"><strong>Warnings</strong><ul class="mb-0">{% for w in r.warnings %}<li>{{ w }}</li>{% endfor %}</ul></div>{% endif %}
+
+<h2>Where the gaps are</h2>
+{% include "portal/_chart.html" with fid="fig-map" fig=charts.map label="Point map of state out-of-school rates" caption="Marker colour is the out-of-school rate; marker size reflects the child population. Locations are approximate state capitals." %}
+{% include "portal/_chart.html" with fid="fig-bars" fig=charts.bars label="State ranking of out-of-school rates" %}
+
+<div class="row">
+  <div class="col-lg-6">{% include "portal/_chart.html" with fid="fig-national" fig=charts.national label="National out-of-school rates by wealth, area and sex" caption="National groups come from published tables, rounded to whole percentages, without intervals." %}</div>
+  <div class="col-lg-6">{% include "portal/_chart.html" with fid="fig-lorenz" fig=charts.lorenz label="Lorenz curve of out-of-school rates across states" %}</div>
+</div>
+
+<h2>National trends (World Bank WDI)</h2>
+<div class="row">
+  <div class="col-lg-4">{% include "portal/_chart.html" with fid="fig-t1" fig=charts.trend_oos label="Trend in children out of school" %}</div>
+  <div class="col-lg-4">{% include "portal/_chart.html" with fid="fig-t2" fig=charts.trend_gpi label="Trend in gender parity index" %}</div>
+  <div class="col-lg-4">{% include "portal/_chart.html" with fid="fig-t3" fig=charts.trend_exp label="Trend in education expenditure" %}</div>
+</div>
+<div class="table-wrap"><table class="table table-sm"><caption class="visually-hidden">Change between first and last available year</caption>
+<thead><tr><th scope="col">Series</th><th scope="col">From</th><th scope="col">To</th><th scope="col" class="num">First value</th><th scope="col" class="num">Last value</th><th scope="col" class="num">Change</th></tr></thead>
+<tbody>{% for code, c in changes.items %}<tr><th scope="row">{{ code }}</th><td>{{ c.from_year|default:"-" }}</td><td>{{ c.to_year|default:"-" }}</td><td class="num">{{ c.from|floatformat:2 }}</td><td class="num">{{ c.to|floatformat:2 }}</td><td class="num">{{ c.change|floatformat:2 }}</td></tr>{% endfor %}</tbody></table></div>
+
+<h2>Recent analyses</h2>
+<ul>{% for x in recent %}<li><a href="{% url 'run_detail' x.public_id %}">{{ x.get_analysis_type_display }}{% if x.label %}: {{ x.label }}{% endif %}</a> <span class="badge-status s-{{ x.status }}">{{ x.status }}</span> <span class="text-muted small">{{ x.created_at|date:"j M Y H:i" }}</span></li>{% endfor %}</ul>
+{% endblock %}
+{% block scripts %}{% include "portal/_chart_scripts.html" %}{% endblock %}

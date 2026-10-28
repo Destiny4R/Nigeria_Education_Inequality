@@ -1,0 +1,26 @@
+{% extends "portal/base.html" %}
+{% block title %}Causal analysis{% endblock %}
+{% block content %}
+<h1>Causal analysis</h1>
+<p class="lead-muted">Does having fewer pupils per qualified teacher reduce the share of children out of school? The engine estimates this under stated assumptions and tests how fragile the answer is.</p>
+
+<form method="post" class="panel bsform" action="{% url 'causal' %}">
+  {% csrf_token %}{{ form.non_field_errors }}
+  <h2 class="mt-0 h5">Run a custom analysis</h2>
+  <div class="row">
+    <div class="col-md-5">{% include "portal/_field.html" with f=form.outcome %}</div>
+    <div class="col-md-5">{% include "portal/_field.html" with f=form.confounders %}</div>
+  </div>
+  <div class="field"><label for="{{ form.quick.id_for_label }}">{{ form.quick }} {{ form.quick.label }}</label>{{ form.quick.errors }}</div>
+  <button class="btn btn-primary" type="submit">Run analysis</button>
+  <span class="small text-muted ms-2">Identical settings reuse the stored result.</span>
+</form>
+
+{% if other_runs %}<details class="mb-3"><summary>Recent causal runs</summary><ul class="mt-2">{% for x in other_runs %}<li><a href="{% url 'run_detail' x.public_id %}">{{ x.label|default:"Causal analysis" }}</a> <span class="badge-status s-{{ x.status }}">{{ x.status }}</span> {{ x.created_at|date:"j M Y H:i" }}</li>{% endfor %}</ul></details>{% endif %}
+
+{% if r %}
+<p class="small text-muted">Showing the standard analysis, <a href="{% url 'run_detail' run.public_id %}">run {{ run.public_id|stringformat:"s"|slice:":8" }}</a> (<a href="{% url 'run_export' run.public_id 'pdf' %}">PDF</a> · <a href="{% url 'run_export' run.public_id 'xlsx' %}">Excel</a> · <a href="{% url 'run_export' run.public_id 'json' %}">JSON</a>).</p>
+{% include "portal/_causal_results.html" %}
+{% else %}<div class="caveat"><strong>No standard analysis yet</strong>Run the run_standard_analyses command to compute it.</div>{% endif %}
+{% endblock %}
+{% block scripts %}{% if r %}{% include "portal/_chart_scripts.html" %}{% endif %}{% endblock %}

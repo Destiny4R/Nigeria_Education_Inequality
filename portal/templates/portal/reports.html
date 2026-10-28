@@ -1,0 +1,16 @@
+{% extends "portal/base.html" %}
+{% block title %}Reports{% endblock %}
+{% block content %}
+<h1>Reports and analysis history</h1>
+<h2>Published documents</h2>
+{% if docs %}<ul>{% for d in docs %}<li><a href="{% url 'report_document' d.name %}">{{ d.label }}</a> <span class="text-muted small">{{ d.size_kb }} KB</span></li>{% endfor %}</ul>{% else %}<p>No documents have been published yet.</p>{% endif %}
+<p><a href="{% url 'summary_pdf' %}">Generate a one-page evidence summary (PDF)</a> from the current standard analyses.</p>
+
+<h2>Analysis history</h2>
+<p class="small text-muted">Every exported figure traces to a run, its configuration hash and the data checksum shown on its page.</p>
+<div class="table-wrap"><table class="table table-sm table-striped"><caption class="visually-hidden">Analysis runs</caption>
+<thead><tr><th scope="col">When</th><th scope="col">Type</th><th scope="col">Label</th><th scope="col">Status</th><th scope="col">Downloads</th></tr></thead>
+<tbody>{% for x in runs %}<tr><td>{{ x.created_at|date:"j M Y H:i" }}</td><td>{{ x.get_analysis_type_display }}</td><th scope="row"><a href="{% url 'run_detail' x.public_id %}">{{ x.label|default:"(custom)" }}</a></th><td><span class="badge-status s-{{ x.status }}">{{ x.status }}</span></td>
+<td>{% if x.status == "succeeded" %}<a href="{% url 'run_export' x.public_id 'pdf' %}">PDF</a> · <a href="{% url 'run_export' x.public_id 'xlsx' %}">Excel</a> · <a href="{% url 'run_export' x.public_id 'json' %}">JSON</a>{% endif %}</td></tr>
+{% empty %}<tr><td colspan="5">No analyses yet.</td></tr>{% endfor %}</tbody></table></div>
+{% endblock %}

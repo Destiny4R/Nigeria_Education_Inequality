@@ -1,0 +1,38 @@
+state,state_code,zone,capital,lat,lon
+Abia,AB,SE,Umuahia,5.53,7.49
+Adamawa,AD,NE,Yola,9.20,12.48
+Akwa Ibom,AK,SS,Uyo,5.03,7.93
+Anambra,AN,SE,Awka,6.21,7.07
+Bauchi,BA,NE,Bauchi,10.31,9.84
+Bayelsa,BY,SS,Yenagoa,4.92,6.26
+Benue,BE,NC,Makurdi,7.73,8.52
+Borno,BO,NE,Maiduguri,11.83,13.15
+Cross River,CR,SS,Calabar,4.95,8.32
+Delta,DE,SS,Asaba,6.20,6.73
+Ebonyi,EB,SE,Abakaliki,6.32,8.11
+Edo,ED,SS,Benin City,6.34,5.63
+Ekiti,EK,SW,Ado-Ekiti,7.62,5.22
+Enugu,EN,SE,Enugu,6.46,7.55
+FCT,FC,NC,Abuja,9.06,7.49
+Gombe,GO,NE,Gombe,10.29,11.17
+Imo,IM,SE,Owerri,5.48,7.03
+Jigawa,JI,NW,Dutse,11.76,9.34
+Kaduna,KD,NW,Kaduna,10.52,7.44
+Kano,KN,NW,Kano,12.00,8.52
+Katsina,KT,NW,Katsina,12.99,7.60
+Kebbi,KE,NW,Birnin Kebbi,12.45,4.20
+Kogi,KO,NC,Lokoja,7.80,6.74
+Kwara,KW,NC,Ilorin,8.50,4.55
+Lagos,LA,SW,Ikeja,6.60,3.35
+Nasarawa,NA,NC,Lafia,8.49,8.52
+Niger,NI,NC,Minna,9.61,6.55
+Ogun,OG,SW,Abeokuta,7.16,3.35
+Ondo,ON,SW,Akure,7.25,5.19
+Osun,OS,SW,Osogbo,7.77,4.56
+Oyo,OY,SW,Ibadan,7.38,3.95
+Plateau,PL,NC,Jos,9.90,8.86
+Rivers,RI,SS,Port Harcourt,4.82,7.03
+Sokoto,SO,NW,Sokoto,13.06,5.24
+Taraba,TA,NE,Jalingo,8.89,11.37
+Yobe,YO,NE,Damaturu,11.75,11.96
+Zamfara,ZA,NW,Gusau,12.17,6.66

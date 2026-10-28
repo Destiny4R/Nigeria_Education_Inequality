@@ -1,0 +1,167 @@
+{
+ "sources": [
+  {
+   "source_id": "FME-DIGEST-2017",
+   "name": "Federal Ministry of Education (Nigeria) - Nigeria Digest of Education Statistics 2017 (NEMIS)",
+   "publisher": "Federal Ministry of Education, Department of Planning, Research and Development / NEMIS",
+   "url": "https://nemiserp.com/2017-Nigeria%20Digest%20of%20Education%20Statistics%202017.pdf",
+   "publication_year": 2018,
+   "collection_period": "School year 2016/2017",
+   "access_date": "2026-10-22",
+   "geographic_coverage": "Nigeria: 36 states + FCT (state level)",
+   "licence": "Not stated in the document (government publication)",
+   "documentation": "Digest chapter 2 (Primary Education)",
+   "limitations": "Administrative (school census) data; known reporting errors incl. duplicated rows, implausible counts; population denominators are projections; public-school teacher tables only.",
+   "permitted_uses": "Research / non-commercial analysis with attribution; confirm terms with the Ministry before redistribution of raw tables.",
+   "retrieval_method": "Retrieved via web-fetch text extraction (the analysis sandbox network proxy blocks direct download from this host); values transcribed as printed into the raw CSV. The original PDF/JSON file could not be saved, so the checksum recorded is of the transcribed raw CSV. Transcription is verified by arithmetic/identity checks in the validation step."
+  },
+  {
+   "source_id": "FME-OOS-2015",
+   "name": "Federal Ministry of Education - Table 2.23 Out-of-School Children (age 6-11) by State and Gender 2015/2016",
+   "publisher": "Federal Ministry of Education (publisher not named on the page)",
+   "url": "https://education.gov.ng/wp-content/uploads/2019/05/Out-of-School-Children-age-6-11-years-by-State-and-Gender-2015-2016.pdf",
+   "publication_year": 2019,
+   "collection_period": "School year 2015/2016",
+   "access_date": "2026-10-22",
+   "geographic_coverage": "Nigeria: 36 states + FCT",
+   "licence": "Not stated",
+   "documentation": "None beyond the table title; header row garbled in extraction",
+   "limitations": "'NER' is enrolment/population (not age-specific) so values >100% occur; at least one row duplicated from another state; Rivers row asterisked (incomplete reporting).",
+   "permitted_uses": "Research with attribution; quality-gated.",
+   "retrieval_method": "Retrieved via web-fetch text extraction (the analysis sandbox network proxy blocks direct download from this host); values transcribed as printed into the raw CSV. The original PDF/JSON file could not be saved, so the checksum recorded is of the transcribed raw CSV. Transcription is verified by arithmetic/identity checks in the validation step."
+  },
+  {
+   "source_id": "UNICEF-MICS6-2021",
+   "name": "Nigeria Education Fact Sheets: Analyses for learning and equity using MICS data (MICS6 / MICS-EAGLE, 2021)",
+   "publisher": "UNICEF Nigeria with the National Bureau of Statistics",
+   "url": "https://www.unicef.org/nigeria/media/9211/file/Nigeria%20Education%20Fact%20Sheets.pdf",
+   "publication_year": 2022,
+   "collection_period": "Fieldwork Sep-Dec 2021; school year 2020-2021",
+   "access_date": "2026-10-22",
+   "geographic_coverage": "Nigeria: 36 states + FCT",
+   "licence": "Not stated (UNICEF publication)",
+   "documentation": "Fact sheet pp. 27-33 (out-of-school rates); MICS6 full report https://www.unicef.org/nigeria/media/6316/file/2021%20MICS%20full%20report%20.pdf",
+   "limitations": "Household survey with sampling error (no CIs available in the extraction); the table text was scrambled by extraction: total/male/female columns aligned, urban/rural/wealth columns NOT reliably aligned. Report notes values were rounded down in Excel.",
+   "permitted_uses": "Research with attribution.",
+   "retrieval_method": "Retrieved via web-fetch text extraction (the analysis sandbox network proxy blocks direct download from this host); values transcribed as printed into the raw CSV. The original PDF/JSON file could not be saved, so the checksum recorded is of the transcribed raw CSV. Transcription is verified by arithmetic/identity checks in the validation step.",
+   "national_table_note": "National Table 3 (p.29) retrieved by web-fetch text extraction on 2026-10-22/23; rates are rounded to whole percentages as printed. Mother's-education rates are not provided in the table."
+  },
+  {
+   "source_id": "WB-GPP-2018",
+   "name": "World Bank Geospatial Poverty Portal: state poverty headcount, 2018 (as compiled on Wikipedia 'List of Nigerian states by poverty rate')",
+   "publisher": "World Bank (compiled by Wikipedia contributors)",
+   "url": "https://en.wikipedia.org/wiki/List_of_Nigerian_states_by_poverty_rate",
+   "publication_year": 2018,
+   "collection_period": "2018",
+   "access_date": "2026-10-22",
+   "geographic_coverage": "35 states + FCT (Borno absent)",
+   "licence": "Wikipedia text CC BY-SA 4.0; underlying World Bank open data CC BY 4.0",
+   "documentation": "World Bank Poverty & Inequality Platform / Geospatial Poverty Portal",
+   "limitations": "Secondary compilation (not the primary World Bank file); modelled small-area estimates; Borno missing; page has no row-level citation. Poverty thresholds in 2017 PPP dollars (2.15, 3.65, 6.85/day).",
+   "permitted_uses": "Research with attribution; used as a confounder / grouping variable only.",
+   "retrieval_method": "Retrieved via web-fetch text extraction (the analysis sandbox network proxy blocks direct download from this host); values transcribed as printed into the raw CSV. The original PDF/JSON file could not be saved, so the checksum recorded is of the transcribed raw CSV. Transcription is verified by arithmetic/identity checks in the validation step."
+  },
+  {
+   "source_id": "WB-WDI",
+   "name": "World Bank World Development Indicators (Nigeria, national series)",
+   "publisher": "World Bank / UNESCO Institute for Statistics",
+   "url": "https://api.worldbank.org/v2/country/NGA/indicator/",
+   "publication_year": 2026,
+   "collection_period": "1990-2023 (indicator-specific)",
+   "access_date": "2026-10-22",
+   "geographic_coverage": "Nigeria national",
+   "licence": "CC BY 4.0 (World Bank Open Data terms)",
+   "documentation": "https://data.worldbank.org/indicator",
+   "limitations": "National only (no subnational detail); sparse for net enrolment (no values after 2010); gross enrolment 2015 value (25.6%) is an extreme outlier; three requested indicators (completion, pupil-teacher ratio, trained teachers) could not be retrieved (server error) and are NOT in the system.",
+   "permitted_uses": "Open - with attribution.",
+   "retrieval_method": "Retrieved via web-fetch text extraction (the analysis sandbox network proxy blocks direct download from this host); values transcribed as printed into the raw CSV. The original PDF/JSON file could not be saved, so the checksum recorded is of the transcribed raw CSV. Transcription is verified by arithmetic/identity checks in the validation step."
+  },
+  {
+   "source_id": "GH-CAPITALS",
+   "name": "nigeria-states-GeoJSON (state capital point coordinates)",
+   "publisher": "horlabyc (GitHub); coordinates credited to locationsng-api",
+   "url": "https://github.com/horlabyc/nigeria-states-GeoJSON",
+   "publication_year": null,
+   "collection_period": "n/a",
+   "access_date": "2026-10-22",
+   "geographic_coverage": "37 state capitals",
+   "licence": "Not stated",
+   "documentation": "README only",
+   "limitations": "Several coordinates visibly wrong (e.g. Delta, Edo and Bayelsa share one longitude; Kebbi latitude off by ~0.8 deg). Used only as a cross-check against independently entered capital coordinates.",
+   "permitted_uses": "Cross-check only.",
+   "retrieval_method": "Direct download (raw.githubusercontent.com), SHA-256 recorded."
+  }
+ ],
+ "datasets": [
+  {
+   "dataset_id": "fme_2015_16_oos",
+   "file": "fme_2015_16_table2_23_oos_by_state.csv",
+   "source_id": "FME-OOS-2015",
+   "unit_of_analysis": "state-year (2015/16)",
+   "name": "FME Table 2.23 - enrolment, population 6-11 and out-of-school by state and gender 2015/16"
+  },
+  {
+   "dataset_id": "fme_2016_17_enrolment",
+   "file": "fme_digest_2017_table2_8_enrolment_2016_17.csv",
+   "source_id": "FME-DIGEST-2017",
+   "unit_of_analysis": "state-year (2016/17)",
+   "name": "Digest 2017 Table 2.8 - public & private primary enrolment by state and gender"
+  },
+  {
+   "dataset_id": "fme_2016_17_teachers",
+   "file": "fme_digest_2017_table2_10_public_teachers_2016_17.csv",
+   "source_id": "FME-DIGEST-2017",
+   "unit_of_analysis": "state-year (2016/17)",
+   "name": "Digest 2017 Table 2.10 - public primary teachers by gender and qualification"
+  },
+  {
+   "dataset_id": "fme_2016_17_ptr",
+   "file": "fme_digest_2017_table2_11_public_ptr_2016_17.csv",
+   "source_id": "FME-DIGEST-2017",
+   "unit_of_analysis": "state-year (2016/17)",
+   "name": "Digest 2017 Table 2.11 - public pupil-teacher and pupil-qualified-teacher ratios"
+  },
+  {
+   "dataset_id": "fme_2016_17_key_indicators",
+   "file": "fme_digest_2017_table2_12_key_indicators_2016_17.csv",
+   "source_id": "FME-DIGEST-2017",
+   "unit_of_analysis": "state-year (2016/17)",
+   "name": "Digest 2017 Table 2.12 - primary key indicators (completion, GER by gender, GPI, PTR, PCR)"
+  },
+  {
+   "dataset_id": "mics_2021_oos",
+   "file": "unicef_mics6_2021_primary_oos_by_state.csv",
+   "source_id": "UNICEF-MICS6-2021",
+   "unit_of_analysis": "state-year (2020/21)",
+   "name": "MICS6 2021 - primary out-of-school rate by state and sex"
+  },
+  {
+   "dataset_id": "wb_poverty_2018",
+   "file": "wb_gpp_poverty_2018_by_state.csv",
+   "source_id": "WB-GPP-2018",
+   "unit_of_analysis": "state-year (2018)",
+   "name": "World Bank poverty headcount by state 2018"
+  },
+  {
+   "dataset_id": "wdi_national",
+   "file": "wdi_nga_national_series.csv",
+   "source_id": "WB-WDI",
+   "unit_of_analysis": "country-year",
+   "name": "WDI Nigeria national education series"
+  },
+  {
+   "dataset_id": "gh_capitals",
+   "file": "state_capitals_points.geojson",
+   "source_id": "GH-CAPITALS",
+   "unit_of_analysis": "state (static)",
+   "name": "State capital coordinates (cross-check file)"
+  },
+  {
+   "dataset_id": "mics_2021_national",
+   "file": "unicef_mics6_2021_national_oos_by_group.csv",
+   "source_id": "UNICEF-MICS6-2021",
+   "unit_of_analysis": "national subgroup (2020/21)",
+   "name": "MICS6 2021 - national out-of-school rate by sex, area, wealth quintile and education level (Table 3 of the fact sheets, p. 29)"
+  }
+ ]
+}

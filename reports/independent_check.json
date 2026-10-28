@@ -1,0 +1,114 @@
+[
+ {
+  "quantity": "Gini across states (pop-weighted)",
+  "independent": 0.47691202090343604,
+  "stored": 0.4769120209034362,
+  "abs_diff": 1.6653345369377348e-16,
+  "tolerance": 0.0005,
+  "agrees": true
+ },
+ {
+  "quantity": "Theil T",
+  "independent": 0.37814270615137374,
+  "stored": 0.3781427061513738,
+  "abs_diff": 5.551115123125783e-17,
+  "tolerance": 0.0005,
+  "agrees": true
+ },
+ {
+  "quantity": "Coefficient of variation (weighted)",
+  "independent": 0.8647330184364147,
+  "stored": 0.8647330184364147,
+  "abs_diff": 0.0,
+  "tolerance": 0.0005,
+  "agrees": true
+ },
+ {
+  "quantity": "P90/P10 ratio",
+  "independent": 18.53333333333333,
+  "stored": 18.53333333333333,
+  "abs_diff": 0.0,
+  "tolerance": 0.005,
+  "agrees": true
+ },
+ {
+  "quantity": "Weighted national mean OOS",
+  "independent": 23.00904573260658,
+  "stored": 23.00904573260658,
+  "abs_diff": 0.0,
+  "tolerance": 0.0005,
+  "agrees": true
+ },
+ {
+  "quantity": "Spearman (OOS, poverty)",
+  "independent": 0.7374748727299864,
+  "stored": 0.7374748727299864,
+  "abs_diff": 0.0,
+  "tolerance": 0.0005,
+  "agrees": true
+ },
+ {
+  "quantity": "North-South gap (pp)",
+  "independent": 29.587598348545082,
+  "stored": 29.587598348545082,
+  "abs_diff": 0.0,
+  "tolerance": 0.0005,
+  "agrees": true
+ },
+ {
+  "quantity": "OLS coefficient, log PQTR",
+  "independent": 4.064419237834967,
+  "stored": 4.064419237834961,
+  "abs_diff": 6.217248937900877e-15,
+  "tolerance": 1e-06,
+  "agrees": true
+ },
+ {
+  "quantity": "OLS HC3 standard error",
+  "independent": 4.3272969499986225,
+  "stored": 4.3272969499986855,
+  "abs_diff": 6.306066779870889e-14,
+  "tolerance": 1e-06,
+  "agrees": true
+ },
+ {
+  "quantity": "OLS 95% CI low",
+  "independent": -4.814460698044266,
+  "stored": -4.814460698044402,
+  "abs_diff": 1.3589129821411916e-13,
+  "tolerance": 1e-06,
+  "agrees": true
+ },
+ {
+  "quantity": "OLS 95% CI high",
+  "independent": 12.9432991737142,
+  "stored": 12.943299173714323,
+  "abs_diff": 1.2256862191861728e-13,
+  "tolerance": 1e-06,
+  "agrees": true
+ },
+ {
+  "quantity": "Effect of 10% PQTR reduction (pp)",
+  "independent": -0.4282293067478814,
+  "stored": -0.42822930674788073,
+  "abs_diff": 6.661338147750939e-16,
+  "tolerance": 1e-06,
+  "agrees": true
+ },
+ {
+  "quantity": "S1 baseline national OOS (pp)",
+  "independent": 23.3604820398268,
+  "stored": 23.3604820398268,
+  "abs_diff": 0.0,
+  "tolerance": 0.0005,
+  "agrees": true
+ },
+ {
+  "quantity": "S1 point change at full implementation (pp)",
+  "independent": -2.0569393623745587,
+  "stored": -2.0569393623745533,
+  "abs_diff": 5.329070518200751e-15,
+  "tolerance": 0.0005,
+  "agrees": true
+ }
+]

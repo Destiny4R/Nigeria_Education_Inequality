@@ -1,0 +1,18 @@
+{% extends "portal/base.html" %}
+{% block title %}System status{% endblock %}
+{% block content %}
+<h1>System status</h1>
+<dl class="row">
+  <dt class="col-sm-3">Database</dt><dd class="col-sm-9">{{ db_vendor }} (<code>{{ db_engine }}</code>)</dd>
+  <dt class="col-sm-3">Analysis execution</dt><dd class="col-sm-9">{{ execution }}, timeout {{ timeout }} s</dd>
+  <dt class="col-sm-3">Runs</dt><dd class="col-sm-9">{% for k, v in counts.items %}{{ k }}: {{ v }}{% if not forloop.last %} · {% endif %}{% endfor %}</dd>
+  <dt class="col-sm-3">Analytical data fingerprint</dt><dd class="col-sm-9"><code>{{ fingerprint }}</code></dd>
+  <dt class="col-sm-3">Analytic dataset SHA-256</dt><dd class="col-sm-9"><code>{{ analytic_sha }}</code></dd>
+  <dt class="col-sm-3">Debug mode</dt><dd class="col-sm-9">{% if debug %}<span class="badge-status s-rejected">ON (never in production)</span>{% else %}off{% endif %}</dd>
+  <dt class="col-sm-3">HTTPS enforcement</dt><dd class="col-sm-9">{% if https %}on{% else %}off (set DJANGO_BEHIND_HTTPS in production){% endif %}</dd>
+</dl>
+<h2>Software versions</h2>
+<p>{% for k, v in versions.items %}{{ k }} {{ v }}{% if not forloop.last %} · {% endif %}{% endfor %}</p>
+<h2>Latest imports</h2>
+<ul>{% for j in jobs %}<li>{{ j.started_at|date:"j M Y H:i" }} <span class="badge-status s-{{ j.status }}">{{ j.status }}</span></li>{% empty %}<li>None.</li>{% endfor %}</ul>
+{% endblock %}

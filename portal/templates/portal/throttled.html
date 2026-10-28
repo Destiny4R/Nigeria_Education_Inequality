@@ -1,0 +1,7 @@
+{% extends "portal/base.html" %}
+{% block title %}Too many requests{% endblock %}
+{% block content %}
+<h1>Please slow down</h1>
+<div class="caveat" role="alert"><strong>Request limit reached</strong>This open site limits how many analyses one visitor can start per hour so that everyone can use it. Please try again later; results you have already seen are unaffected.</div>
+<p><a href="{% url 'home' %}">Back to home</a></p>
+{% endblock %}

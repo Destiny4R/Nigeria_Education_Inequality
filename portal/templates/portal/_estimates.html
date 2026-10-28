@@ -1,0 +1,8 @@
+<div class="table-wrap"><table class="table table-sm table-striped">
+<caption class="visually-hidden">Effect estimates</caption>
+<thead><tr><th scope="col">Method</th><th scope="col" class="num">n</th><th scope="col" class="num">Effect of a 10% cut in PQTR (pp)</th><th scope="col" class="num">95% interval</th><th scope="col" class="num">p</th><th scope="col">Zero in interval?</th></tr></thead>
+<tbody>{% for e in estimates %}<tr>
+<th scope="row">{{ e.method }}{% if e.kind == "primary" %} <span class="badge-status s-approved">primary</span>{% endif %}{% if e.notes %}<div class="small text-muted fw-normal">{{ e.notes }}</div>{% endif %}</th>
+<td class="num">{{ e.n }}</td><td class="num">{{ e.effect_10pct_reduction|floatformat:2 }}</td>
+<td class="num interval-bar">{{ e.effect_10pct_ci_low|floatformat:2 }} to {{ e.effect_10pct_ci_high|floatformat:2 }}</td>
+<td class="num">{{ e.p_value|floatformat:3 }}</td><td>{% if e.ci_includes_zero %}Yes{% else %}No{% endif %}</td></tr>{% endfor %}</tbody></table></div>

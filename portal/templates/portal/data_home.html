@@ -1,0 +1,54 @@
+{% extends "portal/base.html" %}
+{% block title %}Data{% endblock %}
+{% block content %}
+<h1>Data sources, datasets and quality</h1>
+<p class="lead-muted">Every dataset is registered with its origin, licence, limitations and a readiness status assigned by the data-readiness gate. Raw files are never edited.</p>
+<div class="caveat"><strong>How data enter this system</strong>Because the site is open to everyone, there is no web upload. Datasets are imported by the operator from the command line, which records an import job and a versioned checksum.</div>
+
+<h2>Datasets</h2>
+<div class="table-wrap"><table class="table table-sm table-striped"><caption class="visually-hidden">Registered datasets</caption>
+<thead><tr><th scope="col">Dataset</th><th scope="col">Source</th><th scope="col">Unit</th><th scope="col">Role</th><th scope="col">Readiness</th><th scope="col" class="num">Rows</th><th scope="col">Checksum (SHA-256)</th></tr></thead>
+<tbody>{% for row in rows %}<tr>
+<th scope="row"><a href="{% url 'dataset_detail' row.d.dataset_id %}">{{ row.d.name }}</a></th>
+<td>{{ row.d.source.source_id }}</td><td>{{ row.d.unit_of_analysis }}</td><td class="small">{{ row.d.role }}</td>
+<td>{% if row.v %}{% include "portal/_badge.html" with value=row.v.readiness %}{% else %}-{% endif %}</td>
+<td class="num">{{ row.v.n_rows|default:"-" }}</td><td>{% if row.v %}<code>{{ row.v.sha256|slice:":16" }}</code>{% endif %}</td></tr>
+{% empty %}<tr><td colspan="7">No datasets registered yet. Run the import_datasets command.</td></tr>{% endfor %}</tbody></table></div>
+
+<h2>Sources</h2>
+{% for s in sources %}
+<div class="panel">
+  <h3 class="mt-0">{{ s.source_id }}: {{ s.name }}</h3>
+  <dl class="row mb-0">
+    <dt class="col-sm-3">Publisher</dt><dd class="col-sm-9">{{ s.publisher|default:"-" }}</dd>
+    <dt class="col-sm-3">URL</dt><dd class="col-sm-9"><a href="{{ s.url }}" rel="noopener noreferrer">{{ s.url }}</a></dd>
+    <dt class="col-sm-3">Published / collected</dt><dd class="col-sm-9">{{ s.publication_year|default:"-" }} / {{ s.collection_period|default:"-" }}</dd>
+    <dt class="col-sm-3">Accessed</dt><dd class="col-sm-9">{{ s.access_date|date:"j M Y" }}</dd>
+    <dt class="col-sm-3">Coverage</dt><dd class="col-sm-9">{{ s.geographic_coverage }}</dd>
+    <dt class="col-sm-3">Licence</dt><dd class="col-sm-9">{{ s.licence }}</dd>
+    <dt class="col-sm-3">Limitations</dt><dd class="col-sm-9">{{ s.limitations }}</dd>
+    <dt class="col-sm-3">Permitted uses</dt><dd class="col-sm-9">{{ s.permitted_uses }}</dd>
+    <dt class="col-sm-3">Retrieval</dt><dd class="col-sm-9">{{ s.retrieval_method }}</dd>
+  </dl>
+</div>
+{% empty %}<p>No sources registered.</p>{% endfor %}
+
+<h2>Analytical sample (Gate 1)</h2>
+<p>{{ analytic.n_primary_sample }} of {{ analytic.n_states }} states meet all inclusion criteria for the causal analysis:</p>
+<ul>{% for c in analytic.inclusion_criteria %}<li>{{ c }}</li>{% endfor %}</ul>
+<div class="table-wrap"><table class="table table-sm"><caption>Excluded states</caption><thead><tr><th scope="col">State</th><th scope="col">Reason</th></tr></thead><tbody>{% for e in analytic.excluded %}<tr><th scope="row">{{ e.state }}</th><td>{{ e.exclusion_reason }}</td></tr>{% endfor %}</tbody></table></div>
+
+<h2>Cleaning rules</h2>
+<dl>{% for rid, text in rules.items %}<dt>{{ rid }}</dt><dd>{{ text }}</dd>{% endfor %}</dl>
+
+<h2>Downloads (cleaned data, CSV)</h2>
+<ul>
+  <li><a href="{% url 'data_download' 'state_analytic' %}">state_analytic.csv</a>: analytical state dataset with flags</li>
+  <li><a href="{% url 'data_download' 'national_groups' %}">national_groups.csv</a>: national rates by group</li>
+  <li><a href="{% url 'data_download' 'national_series' %}">national_series.csv</a>: national time series</li>
+</ul>
+<p>Analytical data fingerprint: <code>{{ fingerprint }}</code>. See also the <a href="{% url 'dictionary' %}">data dictionary</a>.</p>
+
+<h2>Import history</h2>
+<ul>{% for j in jobs %}<li>{{ j.started_at|date:"j M Y H:i" }} <span class="badge-status s-{{ j.status }}">{{ j.status }}</span>{% if j.error %} {{ j.error|truncatechars:200 }}{% endif %}</li>{% empty %}<li>No imports recorded.</li>{% endfor %}</ul>
+{% endblock %}
